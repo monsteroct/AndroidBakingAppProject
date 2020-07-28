@@ -2,4 +2,5 @@
     <string name="app_name">ProjectBakingRecipe</string>
 
     <string name="error_loading_recipe_list">loading_recipe_list_error</string>
+    <string name="content_recipe_item_image">Recipe item image</string>
 </resources>
