@@ -1,18 +1,31 @@
 package com.salab.project.projectbakingrecipe;
 
+import android.app.PendingIntent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.salab.project.projectbakingrecipe.Model.Recipe;
+import com.salab.project.projectbakingrecipe.databinding.FragmentRecipeListBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Fragment to display list of recipes
  */
 public class RecipeListFragment extends Fragment {
 
+    private static final String TAG = RecipeListFragment.class.getSimpleName();
+
+    FragmentRecipeListBinding mBiding;
+    RecipeListAdapter mAdapter;
 
     public RecipeListFragment() {
         // Required empty public constructor
@@ -22,7 +35,54 @@ public class RecipeListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recipe_list, container, false);
+        // Inflate the layout with ViewBiding
+        mBiding = FragmentRecipeListBinding.inflate(inflater, container, false);
+
+        initRecyclerView();
+
+        return mBiding.getRoot();
+
     }
+
+    public List<Recipe> createDummyDateSet(){
+        //create dummy recipe list, only for build purpose
+        List<Recipe> recipeList = new ArrayList<>();
+
+        Recipe dummyRecipe = new Recipe();
+        dummyRecipe.setName("Nutella Pie");
+        dummyRecipe.setServings(8);
+        dummyRecipe.setImage("");
+
+        recipeList.add(dummyRecipe);
+
+        return recipeList;
+    }
+
+    public void initRecyclerView(){
+        // show loading progress bar
+        showProgressBar(true);
+
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        mBiding.rvRecipeList.setLayoutManager(manager);
+
+        mBiding.rvRecipeList.setHasFixedSize(true);
+
+        mAdapter = new RecipeListAdapter(createDummyDateSet());
+        mBiding.rvRecipeList.setAdapter(mAdapter);
+
+        // hide loading progress bar
+        showProgressBar(false);
+    }
+
+    private void showProgressBar(boolean isShowing) {
+        if (isShowing) {
+            mBiding.rvRecipeList.setVisibility(View.INVISIBLE);
+            mBiding.progressRecipeList.setVisibility(View.VISIBLE);
+        } else {
+            mBiding.rvRecipeList.setVisibility(View.VISIBLE);
+            mBiding.progressRecipeList.setVisibility(View.INVISIBLE);
+        }
+    }
+
+
 }
