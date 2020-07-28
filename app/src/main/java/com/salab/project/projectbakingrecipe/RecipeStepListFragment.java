@@ -3,13 +3,19 @@ package com.salab.project.projectbakingrecipe;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.salab.project.projectbakingrecipe.Model.Recipe;
+import com.salab.project.projectbakingrecipe.Model.RecipeStep;
 import com.salab.project.projectbakingrecipe.databinding.FragmentRecipeDetailBinding;
 import com.salab.project.projectbakingrecipe.databinding.FragmentRecipeStepListBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Display list of recipe steps
@@ -20,6 +26,7 @@ public class RecipeStepListFragment extends Fragment {
 
     private String mRecipeId;
     private FragmentRecipeStepListBinding mBinding;
+    private RecipeStepListAdapter mAdapter;
 
 
     public RecipeStepListFragment() {
@@ -49,6 +56,36 @@ public class RecipeStepListFragment extends Fragment {
         // Inflate the layout for this fragment
         mBinding = FragmentRecipeStepListBinding.inflate(inflater, container, false);
 
+        initRecyclerView();
+
         return mBinding.getRoot();
+    }
+
+    private void initRecyclerView() {
+        mBinding.rvRecipeStepList.setLayoutManager(new LinearLayoutManager(getContext()));
+        mAdapter = new RecipeStepListAdapter(getContext(), getDummyDataSet());
+
+        //scrolling all activity layout, so turn of individual scrolling
+        mBinding.rvRecipeStepList.setNestedScrollingEnabled(false);
+
+        mBinding.rvRecipeStepList.setHasFixedSize(true);
+        mBinding.rvRecipeStepList.setAdapter(mAdapter);
+    }
+
+    private List<RecipeStep> getDummyDataSet() {
+        //create dummy recipe list, only for build purpose
+        List<RecipeStep> recipeStepList = new ArrayList<>();
+
+        RecipeStep dummyStep = new RecipeStep();
+        dummyStep.setId(0);
+        dummyStep.setShortDescription("Recipe Introduction");
+        recipeStepList.add(dummyStep);
+
+        RecipeStep dummyStep2 = new RecipeStep();
+        dummyStep2.setId(1);
+        dummyStep2.setShortDescription("Starting prep");
+        recipeStepList.add(dummyStep2);
+
+        return recipeStepList;
     }
 }
