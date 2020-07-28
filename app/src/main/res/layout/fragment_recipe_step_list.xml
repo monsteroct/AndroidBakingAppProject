@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_detail_label_steps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/label_text"
+        android:text="@string/label_steps"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_recipe_step_list"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"/>
+</LinearLayout>

@@ -1,6 +1,15 @@
 <resources>
     <string name="app_name">ProjectBakingRecipe</string>
 
+    <!-- error message -->
     <string name="error_loading_recipe_list">loading_recipe_list_error</string>
+
+    <!-- image content description -->
     <string name="content_recipe_item_image">Recipe item image</string>
+    <string name="content_step_detail">Step detail</string>
+
+    <!-- label text -->
+    <string name="label_ingredients">Ingredients</string>
+    <string name="label_steps">Steps</string>
+
 </resources>

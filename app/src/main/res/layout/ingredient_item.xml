@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/tv_item_ingredient_name"
+        android:layout_weight="0.7"
+        tools:text="Graham Cracker crumbs"
+        style="@style/ingredient_text"/>
+    <TextView
+        android:id="@+id/tv_item_ingredient_quantity"
+        android:layout_weight="0.10"
+        tools:text="2"
+        style="@style/ingredient_text"/>
+    <TextView
+        android:id="@+id/tv_item_ingredient_measure"
+        android:layout_weight="0.2"
+        tools:text="CUP"
+        style="@style/ingredient_text"/>
+
+</LinearLayout>
