@@ -8,19 +8,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <fragment
-            android:id="@+id/fragment_recipe_detail"
+        <FrameLayout
+            android:id="@+id/container_recipe_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:name="com.salab.project.projectbakingrecipe.RecipeDetailFragment"/>
+            android:layout_marginTop="8dp" />
 
-        <fragment
-            android:id="@+id/fragment_step_list"
+        <FrameLayout
+            android:id="@+id/container_step_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:name="com.salab.project.projectbakingrecipe.RecipeStepListFragment"/>
+            android:layout_marginTop="8dp" />
 
     </LinearLayout>
 </ScrollView>

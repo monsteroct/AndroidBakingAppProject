@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,18 +23,18 @@ public class RecipeDetailFragment extends Fragment {
 
     private static final String ARG_RECIPE_ID = "recipe_argument";
 
-    private String mRecipeId;
+    private int mRecipeId;
     private FragmentRecipeDetailBinding mBinding;
 
     public RecipeDetailFragment() {
         // Required empty public constructor
     }
 
-    public static RecipeDetailFragment newInstance(String recipeId) {
+    public static RecipeDetailFragment newInstance(int recipeId) {
         // use factory patten to create fragment instance of that recipe
         RecipeDetailFragment fragment = new RecipeDetailFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_RECIPE_ID, recipeId);
+        args.putInt(ARG_RECIPE_ID, recipeId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -42,7 +43,7 @@ public class RecipeDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mRecipeId = getArguments().getString(ARG_RECIPE_ID);
+            mRecipeId = getArguments().getInt(ARG_RECIPE_ID);
         }
     }
 
@@ -51,7 +52,6 @@ public class RecipeDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mBinding = FragmentRecipeDetailBinding.inflate(inflater, container, false);
-
 
         fillIngredientListToTextView();
 
@@ -67,6 +67,7 @@ public class RecipeDetailFragment extends Fragment {
             ingredientDesc = getString(R.string.msg_ingredient_desc, ingredient.getQuantity(), ingredient.getMeasure(), ingredient.getIngredient());
             mBinding.tvDetailIngredientList.append(ingredientDesc + "\n");
         }
+        Log.d("TEST", mBinding.tvDetailIngredientList.toString());
     }
 
     private List<Ingredient> getDummyDataSet() {

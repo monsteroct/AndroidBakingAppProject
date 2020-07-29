@@ -24,7 +24,7 @@ public class RecipeStepListFragment extends Fragment {
 
     private static final String ARG_RECIPE_ID = "recipe_argument";
 
-    private String mRecipeId;
+    private int mRecipeId;
     private FragmentRecipeStepListBinding mBinding;
     private RecipeStepListAdapter mAdapter;
 
@@ -33,11 +33,11 @@ public class RecipeStepListFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static RecipeStepListFragment newInstance(String recipeId) {
+    public static RecipeStepListFragment newInstance(int recipeId) {
         // use factory patten to create fragment instance of that recipe
         RecipeStepListFragment fragment = new RecipeStepListFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_RECIPE_ID, recipeId);
+        args.putInt(ARG_RECIPE_ID, recipeId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,7 +46,7 @@ public class RecipeStepListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mRecipeId = getArguments().getString(ARG_RECIPE_ID);
+            mRecipeId = getArguments().getInt(ARG_RECIPE_ID);
         }
     }
 
