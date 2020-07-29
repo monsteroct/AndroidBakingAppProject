@@ -1,5 +1,6 @@
 package com.salab.project.projectbakingrecipe;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -17,10 +18,13 @@ import com.salab.project.projectbakingrecipe.databinding.FragmentRecipeStepListB
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.salab.project.projectbakingrecipe.RecipeStepActivity.EXTRA_RECIPE_ID;
+import static com.salab.project.projectbakingrecipe.RecipeStepActivity.EXTRA_STEP_ID;
+
 /**
  * Display list of recipe steps
  */
-public class RecipeStepListFragment extends Fragment {
+public class RecipeStepListFragment extends Fragment implements RecipeStepListAdapter.RecipeStepOnClickListener {
 
     private static final String ARG_RECIPE_ID = "recipe_argument";
 
@@ -63,7 +67,7 @@ public class RecipeStepListFragment extends Fragment {
 
     private void initRecyclerView() {
         mBinding.rvRecipeStepList.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new RecipeStepListAdapter(getContext(), getDummyDataSet());
+        mAdapter = new RecipeStepListAdapter(getContext(), getDummyDataSet(), this);
 
         //scrolling all activity layout, so turn of individual scrolling
         mBinding.rvRecipeStepList.setNestedScrollingEnabled(false);
@@ -87,5 +91,14 @@ public class RecipeStepListFragment extends Fragment {
         recipeStepList.add(dummyStep2);
 
         return recipeStepList;
+    }
+
+    @Override
+    public void onRecipeStepClick(int stepId) {
+        Intent recipeStepIntent = new Intent(getContext(),RecipeStepActivity.class);
+        // RecipeStep needs two argument to determine
+        recipeStepIntent.putExtra(EXTRA_RECIPE_ID, mRecipeId);
+        recipeStepIntent.putExtra(EXTRA_STEP_ID, stepId);
+        startActivity(recipeStepIntent);
     }
 }

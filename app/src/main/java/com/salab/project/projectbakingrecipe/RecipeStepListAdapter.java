@@ -18,10 +18,17 @@ public class RecipeStepListAdapter extends RecyclerView.Adapter<RecipeStepListAd
     private List<RecipeStep> mRecipeStepList;
     // context required to get string resources
     private Context mContext;
+    private RecipeStepOnClickListener mClickListener;
 
-    public RecipeStepListAdapter(Context context, List<RecipeStep> RecipeStepList) {
+    public interface RecipeStepOnClickListener{
+        void onRecipeStepClick(int stepId);
+    }
+
+
+    public RecipeStepListAdapter(Context context, List<RecipeStep> RecipeStepList, RecipeStepOnClickListener ClickListener) {
         mContext = context;
         mRecipeStepList = RecipeStepList;
+        mClickListener = ClickListener;
     }
 
     @NonNull
@@ -50,13 +57,20 @@ public class RecipeStepListAdapter extends RecyclerView.Adapter<RecipeStepListAd
         }
     }
 
-    class RecipeStepListViewHolder extends RecyclerView.ViewHolder{
+    class RecipeStepListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView mRecipeStepDescTextView;
 
         public RecipeStepListViewHolder(@NonNull View itemView) {
             super(itemView);
             mRecipeStepDescTextView = itemView.findViewById(R.id.tv_step_desc);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            mClickListener.onRecipeStepClick(mRecipeStepList.get(position).getId());
         }
     }
 
