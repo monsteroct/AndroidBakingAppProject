@@ -1,17 +1,12 @@
 package com.salab.project.projectbakingrecipe;
 
-import android.app.IntentService;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import com.salab.project.projectbakingrecipe.Model.Ingredient;
 import com.salab.project.projectbakingrecipe.databinding.FragmentRecipeDetailBinding;
@@ -57,12 +52,21 @@ public class RecipeDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         mBinding = FragmentRecipeDetailBinding.inflate(inflater, container, false);
 
-        // init ListView
-        IngredientListAdapter mAdapter = new IngredientListAdapter(getDummyDataSet());
-        mBinding.lvDetailIngredientList.setAdapter(mAdapter);
-        //TODO : fix the list view is scrollable
+
+        fillIngredientListToTextView();
 
         return mBinding.getRoot();
+    }
+
+    private void fillIngredientListToTextView() {
+        mBinding.tvDetailIngredientList.setText("");
+        List<Ingredient> ingredientList = getDummyDataSet();
+        String ingredientDesc;
+        for (int i = 0; i < ingredientList.size(); i++) {
+            Ingredient ingredient = ingredientList.get(i);
+            ingredientDesc = getString(R.string.msg_ingredient_desc, ingredient.getQuantity(), ingredient.getMeasure(), ingredient.getIngredient());
+            mBinding.tvDetailIngredientList.append(ingredientDesc + "\n");
+        }
     }
 
     private List<Ingredient> getDummyDataSet() {
@@ -82,55 +86,5 @@ public class RecipeDetailFragment extends Fragment {
         ingredientList.add(ingredientDummy2);
 
         return ingredientList;
-    }
-
-    /**
-     * Simple BaseAdapter is used to back the ingredients ListView
-     */
-    class IngredientListAdapter extends BaseAdapter{
-
-        private List<Ingredient> mIngredientList;
-
-        public IngredientListAdapter(List<Ingredient> IngredientList) {
-            mIngredientList = IngredientList;
-        }
-
-        @Override
-        public int getCount() {
-            if (mIngredientList == null) {
-                return 0;
-            } else {
-                return mIngredientList.size();
-            }
-        }
-
-        @Override
-        public Ingredient getItem(int position) {
-            return mIngredientList.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null){
-                //inflate list item view once
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.ingredient_item, parent, false);
-            }
-
-            TextView ingredientNameTextView = convertView.findViewById(R.id.tv_item_ingredient_name);
-            TextView ingredientQuantityTextView = convertView.findViewById(R.id.tv_item_ingredient_quantity);
-            TextView ingredientMeasureTextView = convertView.findViewById(R.id.tv_item_ingredient_measure);
-
-            ingredientNameTextView.setText(getItem(position).getIngredient());
-            //getQuantity() returns integer
-            ingredientQuantityTextView.setText(String.valueOf(getItem(position).getQuantity()));
-            ingredientMeasureTextView.setText(getItem(position).getMeasure());
-
-            return convertView;
-        }
     }
 }
