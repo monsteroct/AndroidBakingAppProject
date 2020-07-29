@@ -1,6 +1,7 @@
 package com.salab.project.projectbakingrecipe;
 
 import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -17,10 +18,12 @@ import com.salab.project.projectbakingrecipe.databinding.FragmentRecipeListBindi
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.salab.project.projectbakingrecipe.RecipeActivity.EXTRA_RECIPE_ID;
+
 /**
  * Fragment to display list of recipes
  */
-public class RecipeListFragment extends Fragment {
+public class RecipeListFragment extends Fragment implements RecipeListAdapter.RecipeItemClickListener{
 
     private static final String TAG = RecipeListFragment.class.getSimpleName();
 
@@ -67,7 +70,7 @@ public class RecipeListFragment extends Fragment {
 
         mBiding.rvRecipeList.setHasFixedSize(true);
 
-        mAdapter = new RecipeListAdapter(createDummyDateSet());
+        mAdapter = new RecipeListAdapter(createDummyDateSet(), this);
         mBiding.rvRecipeList.setAdapter(mAdapter);
 
         // hide loading progress bar
@@ -85,4 +88,10 @@ public class RecipeListFragment extends Fragment {
     }
 
 
+    @Override
+    public void onRecipeClick(int recipeId) {
+        Intent recipeIntent = new Intent(getContext(), RecipeActivity.class);
+        recipeIntent.putExtra(EXTRA_RECIPE_ID, recipeId);
+        startActivity(recipeIntent);
+    }
 }

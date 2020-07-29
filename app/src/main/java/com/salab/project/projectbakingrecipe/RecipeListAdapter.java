@@ -16,9 +16,17 @@ import java.util.List;
 public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.RecipeListViewHolder> {
 
     private List<Recipe> mRecipeList;
+    private RecipeItemClickListener mClickListener;
 
-    public RecipeListAdapter(List<Recipe> mRecipeList) {
+    public interface RecipeItemClickListener{
+        // fragment implement this listener to allow onClick callback event
+        void onRecipeClick(int recipeId);
+    }
+
+
+    public RecipeListAdapter(List<Recipe> mRecipeList, RecipeItemClickListener mClickListener) {
         this.mRecipeList = mRecipeList;
+        this.mClickListener = mClickListener;
     }
 
     @NonNull
@@ -52,7 +60,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         }
     }
 
-    class RecipeListViewHolder extends RecyclerView.ViewHolder{
+    class RecipeListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         protected ImageView mRecipeImageImageView;
         protected TextView mRecipeNameTextView;
 
@@ -60,6 +68,13 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
             super(itemView);
             mRecipeImageImageView = itemView.findViewById(R.id.iv_item_recipe_image);
             mRecipeNameTextView = itemView.findViewById(R.id.tv_item_recipe_name);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            mClickListener.onRecipeClick(mRecipeList.get(position).getId());
         }
     }
 
