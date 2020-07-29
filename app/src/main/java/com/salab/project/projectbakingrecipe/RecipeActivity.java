@@ -12,7 +12,7 @@ public class RecipeActivity extends AppCompatActivity {
     public static final String EXTRA_RECIPE_ID = "selected_recipe_id";
     private static final String TAG = RecipeActivity.class.getSimpleName();
 
-    private int recipeId = -1;
+    private int mRecipeId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,12 +22,12 @@ public class RecipeActivity extends AppCompatActivity {
         Intent receivedIntent = getIntent();
         if (receivedIntent != null && receivedIntent.hasExtra(EXTRA_RECIPE_ID)){
             // get recipe id to display recipe detail
-            recipeId = receivedIntent.getIntExtra(EXTRA_RECIPE_ID, -1);
+            mRecipeId = receivedIntent.getIntExtra(EXTRA_RECIPE_ID, -1);
         } else {
             Log.d(TAG, "invalid start");
         }
 
-        if (recipeId != -1){
+        if (mRecipeId != -1){
             initFragments();
         } else {
             Log.d(TAG, "invalid recipe id");
@@ -38,8 +38,8 @@ public class RecipeActivity extends AppCompatActivity {
     private void initFragments() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         // Create corresponding fragments to this recipe
-        RecipeDetailFragment recipeDetailFragment = RecipeDetailFragment.newInstance(recipeId);
-        RecipeStepListFragment recipeStepListFragment = RecipeStepListFragment.newInstance(recipeId);
+        RecipeDetailFragment recipeDetailFragment = RecipeDetailFragment.newInstance(mRecipeId);
+        RecipeStepListFragment recipeStepListFragment = RecipeStepListFragment.newInstance(mRecipeId);
         // fill into containers
         fragmentManager.beginTransaction()
                 .replace(R.id.container_recipe_detail, recipeDetailFragment)

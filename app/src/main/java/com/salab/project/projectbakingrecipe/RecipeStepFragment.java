@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,11 @@ import com.salab.project.projectbakingrecipe.databinding.FragmentRecipeStepBindi
 public class RecipeStepFragment extends Fragment {
 
     private static final String ARG_RECIPE_ID = "recipe_argument";
+    private static final String ARG_STEP_ID = "step_argument";
+    private static final String TAG = RecipeStepFragment.class.getSimpleName();
 
-    private String mRecipeId;
+    private int mRecipeId;
+    private int mStepId;
     private FragmentRecipeStepBinding mBinding;
     private boolean mIsLandscapeMode;
 
@@ -29,10 +33,11 @@ public class RecipeStepFragment extends Fragment {
     }
 
 
-    public static RecipeStepFragment newInstance(String recipeId) {
+    public static RecipeStepFragment newInstance(int recipeId, int stepId) {
         RecipeStepFragment fragment = new RecipeStepFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_RECIPE_ID, recipeId);
+        args.putInt(ARG_RECIPE_ID, recipeId);
+        args.putInt(ARG_STEP_ID, stepId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -41,9 +46,11 @@ public class RecipeStepFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mRecipeId = getArguments().getString(ARG_RECIPE_ID);
+            mRecipeId = getArguments().getInt(ARG_RECIPE_ID);
+            mStepId = getArguments().getInt(ARG_STEP_ID);
         }
-        // check orientation of device now
+        Log.d(TAG, "Detail Recipe Step started, with recipe/step Id = " + mRecipeId + ", " + mStepId);
+        // check orientation of device
         mIsLandscapeMode = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
