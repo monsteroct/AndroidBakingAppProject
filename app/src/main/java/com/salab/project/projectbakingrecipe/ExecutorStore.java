@@ -15,9 +15,9 @@ public class ExecutorStore {
 
     private static ExecutorStore sInstance;
     private static final Object LOCK = new Object();
-    Executor diskIO;
-    Executor networkIO;
-    Executor mainThread;
+    private Executor diskIO;
+    private Executor networkIO;
+    private Executor mainThread;
 
     public ExecutorStore(Executor diskIO, Executor networkIO, Executor mainThread) {
         this.diskIO = diskIO;
@@ -47,4 +47,15 @@ public class ExecutorStore {
         }
     }
 
+    public Executor getDiskIO() {
+        return diskIO;
+    }
+
+    public Executor getNetworkIO() {
+        return networkIO;
+    }
+
+    public Executor getMainThread() {
+        return mainThread;
+    }
 }
