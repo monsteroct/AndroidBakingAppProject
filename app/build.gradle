@@ -40,6 +40,13 @@ dependencies {
 
     implementation 'com.google.android.exoplayer:exoplayer:2.11.7'
     implementation 'com.google.android.material:material:1.1.0'
+    // LiveData, ViewModel
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.2.0'
+    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.2.0'
+    //Room
+    implementation "androidx.room:room-runtime:2.2.5"
+    annotationProcessor "androidx.room:room-compiler:2.2.5"
 
     testImplementation 'junit:junit:4.13'
 
