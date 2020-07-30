@@ -1,8 +1,12 @@
 package com.salab.project.projectbakingrecipe;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,21 +14,28 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.salab.project.projectbakingrecipe.Model.Ingredient;
+import com.salab.project.projectbakingrecipe.Model.RecipeStep;
+import com.salab.project.projectbakingrecipe.RecipeStepListAdapter.RecipeStepOnClickListener;
 import com.salab.project.projectbakingrecipe.databinding.FragmentRecipeDetailBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.salab.project.projectbakingrecipe.RecipeStepActivity.EXTRA_RECIPE_ID;
+import static com.salab.project.projectbakingrecipe.RecipeStepActivity.EXTRA_STEP_ID;
+
 /**
  * Display recipe details including image, name, servings and ingredients
  */
-public class RecipeDetailFragment extends Fragment {
+public class RecipeDetailFragment extends Fragment{
 
 
     private static final String ARG_RECIPE_ID = "recipe_argument";
-
+    private static final String TAG = RecipeDetailFragment.class.getSimpleName();
+    
     private int mRecipeId;
     private FragmentRecipeDetailBinding mBinding;
+    private RecipeStepListAdapter mAdapter;
 
     public RecipeDetailFragment() {
         // Required empty public constructor
@@ -52,10 +63,15 @@ public class RecipeDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mBinding = FragmentRecipeDetailBinding.inflate(inflater, container, false);
-
-        fillIngredientListToTextView();
-
         return mBinding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // populate the UI
+        fillIngredientListToTextView();
+        initRecyclerView();
     }
 
     private void fillIngredientListToTextView() {
@@ -68,6 +84,26 @@ public class RecipeDetailFragment extends Fragment {
             mBinding.tvDetailIngredientList.append(ingredientDesc + "\n");
         }
         Log.d("TEST", mBinding.tvDetailIngredientList.toString());
+    }
+
+    private void initRecyclerView() {
+        mBinding.rvRecipeStepList.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // make host activity listen to the step list click event, and do corresponding actions
+        RecipeStepOnClickListener stepClickListener = null;
+        try{
+            stepClickListener = (RecipeStepOnClickListener) getActivity();
+        } catch (ClassCastException e){
+            Log.d(TAG, "Host Activity does not implement Adapter's onClick listener interface");
+        }
+
+        mAdapter = new RecipeStepListAdapter(getContext(), getDummyStepDataSet(), stepClickListener);
+
+        //scrolling all activity layout, so turn of individual scrolling
+        mBinding.rvRecipeStepList.setNestedScrollingEnabled(false);
+
+        mBinding.rvRecipeStepList.setHasFixedSize(true);
+        mBinding.rvRecipeStepList.setAdapter(mAdapter);
     }
 
     private List<Ingredient> getDummyDataSet() {
@@ -88,4 +124,24 @@ public class RecipeDetailFragment extends Fragment {
 
         return ingredientList;
     }
+
+
+    private List<RecipeStep> getDummyStepDataSet() {
+        //create dummy recipe list, only for build purpose
+        List<RecipeStep> recipeStepList = new ArrayList<>();
+
+        RecipeStep dummyStep = new RecipeStep();
+        dummyStep.setId(0);
+        dummyStep.setShortDescription("Recipe Introduction");
+        recipeStepList.add(dummyStep);
+
+        RecipeStep dummyStep2 = new RecipeStep();
+        dummyStep2.setId(1);
+        dummyStep2.setShortDescription("Starting prep");
+        recipeStepList.add(dummyStep2);
+
+        return recipeStepList;
+    }
+    
+
 }

@@ -50,7 +50,28 @@
         android:layout_marginTop="8dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        tools:text="2 CUP - Graham Cracker crumbs\n6 TBLSP unsalted butter, melted"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_detail_label_ingredients" />
+
+    <TextView
+        android:id="@+id/tv_detail_label_steps"
+        style="@style/label_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/label_steps"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_detail_ingredient_list" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_recipe_step_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_detail_label_steps" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
