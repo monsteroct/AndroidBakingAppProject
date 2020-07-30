@@ -1,10 +1,8 @@
-package com.salab.project.projectbakingrecipe;
+package com.salab.project.projectbakingrecipe.ui;
 
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -12,13 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.salab.project.projectbakingrecipe.Model.Recipe;
+import com.salab.project.projectbakingrecipe.models.Recipe;
+import com.salab.project.projectbakingrecipe.adapter.RecipeListAdapter;
 import com.salab.project.projectbakingrecipe.databinding.FragmentRecipeListBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.salab.project.projectbakingrecipe.RecipeActivity.EXTRA_RECIPE_ID;
+import static com.salab.project.projectbakingrecipe.ui.RecipeActivity.EXTRA_RECIPE_ID;
 
 /**
  * Fragment to display list of recipes

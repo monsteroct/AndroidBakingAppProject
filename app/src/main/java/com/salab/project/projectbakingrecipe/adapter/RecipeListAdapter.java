@@ -1,4 +1,4 @@
-package com.salab.project.projectbakingrecipe;
+package com.salab.project.projectbakingrecipe.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.salab.project.projectbakingrecipe.Model.Recipe;
+import com.salab.project.projectbakingrecipe.models.Recipe;
+import com.salab.project.projectbakingrecipe.R;
 
 import java.util.List;
 

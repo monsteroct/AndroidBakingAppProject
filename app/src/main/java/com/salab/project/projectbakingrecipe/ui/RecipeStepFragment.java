@@ -1,4 +1,4 @@
-package com.salab.project.projectbakingrecipe;
+package com.salab.project.projectbakingrecipe.ui;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

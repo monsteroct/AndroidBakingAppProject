@@ -1,4 +1,4 @@
-package com.salab.project.projectbakingrecipe.Model;
+package com.salab.project.projectbakingrecipe.models;
 
 import java.util.List;
 

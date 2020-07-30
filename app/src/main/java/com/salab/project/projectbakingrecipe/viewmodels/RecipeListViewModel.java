@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.salab.project.projectbakingrecipe.Model.Recipe;
+import com.salab.project.projectbakingrecipe.models.Recipe;
 
 import java.util.List;
 

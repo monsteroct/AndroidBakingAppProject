@@ -6,9 +6,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
-import com.salab.project.projectbakingrecipe.Model.Ingredient;
-import com.salab.project.projectbakingrecipe.Model.Recipe;
-import com.salab.project.projectbakingrecipe.Model.RecipeStep;
+import com.salab.project.projectbakingrecipe.models.Ingredient;
+import com.salab.project.projectbakingrecipe.models.Recipe;
+import com.salab.project.projectbakingrecipe.models.RecipeStep;
 
 import java.util.List;
 

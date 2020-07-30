@@ -1,4 +1,4 @@
-package com.salab.project.projectbakingrecipe;
+package com.salab.project.projectbakingrecipe.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,16 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.salab.project.projectbakingrecipe.Model.Recipe;
-import com.salab.project.projectbakingrecipe.Model.RecipeStep;
-import com.salab.project.projectbakingrecipe.databinding.FragmentRecipeDetailBinding;
+import com.salab.project.projectbakingrecipe.models.RecipeStep;
+import com.salab.project.projectbakingrecipe.adapter.RecipeStepListAdapter;
 import com.salab.project.projectbakingrecipe.databinding.FragmentRecipeStepListBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.salab.project.projectbakingrecipe.RecipeStepActivity.EXTRA_RECIPE_ID;
-import static com.salab.project.projectbakingrecipe.RecipeStepActivity.EXTRA_STEP_ID;
+import static com.salab.project.projectbakingrecipe.ui.RecipeStepActivity.EXTRA_RECIPE_ID;
+import static com.salab.project.projectbakingrecipe.ui.RecipeStepActivity.EXTRA_STEP_ID;
 
 /**
  * Display list of recipe steps

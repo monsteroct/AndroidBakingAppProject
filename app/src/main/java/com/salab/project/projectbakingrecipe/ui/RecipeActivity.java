@@ -1,4 +1,4 @@
-package com.salab.project.projectbakingrecipe;
+package com.salab.project.projectbakingrecipe.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -7,8 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import static com.salab.project.projectbakingrecipe.RecipeStepActivity.EXTRA_RECIPE_ID;
-import static com.salab.project.projectbakingrecipe.RecipeStepActivity.EXTRA_STEP_ID;
+import com.salab.project.projectbakingrecipe.R;
+import com.salab.project.projectbakingrecipe.adapter.RecipeStepListAdapter;
 
 public class RecipeActivity extends AppCompatActivity  implements RecipeStepListAdapter.RecipeStepOnClickListener{
 

@@ -1,6 +1,5 @@
-package com.salab.project.projectbakingrecipe;
+package com.salab.project.projectbakingrecipe.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,16 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.salab.project.projectbakingrecipe.Model.Ingredient;
-import com.salab.project.projectbakingrecipe.Model.RecipeStep;
-import com.salab.project.projectbakingrecipe.RecipeStepListAdapter.RecipeStepOnClickListener;
+import com.salab.project.projectbakingrecipe.models.Ingredient;
+import com.salab.project.projectbakingrecipe.models.RecipeStep;
+import com.salab.project.projectbakingrecipe.R;
+import com.salab.project.projectbakingrecipe.adapter.RecipeStepListAdapter;
+import com.salab.project.projectbakingrecipe.adapter.RecipeStepListAdapter.RecipeStepOnClickListener;
 import com.salab.project.projectbakingrecipe.databinding.FragmentRecipeDetailBinding;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.salab.project.projectbakingrecipe.RecipeStepActivity.EXTRA_RECIPE_ID;
-import static com.salab.project.projectbakingrecipe.RecipeStepActivity.EXTRA_STEP_ID;
 
 /**
  * Display recipe details including image, name, servings and ingredients
