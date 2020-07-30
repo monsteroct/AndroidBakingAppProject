@@ -1,15 +1,27 @@
 package com.salab.project.projectbakingrecipe.models;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import java.util.List;
 
+@Entity(tableName = "recipe")
 public class Recipe {
 
+    @PrimaryKey
     private int id;
     private String name;
+    @Ignore
     private List<Ingredient> ingredients;
+    @Ignore
     private List<RecipeStep> steps;
     private int servings;
     private String image;
+
+    public Recipe() {
+        // Mandatory constructor
+    }
 
     public int getId() {
         return id;
