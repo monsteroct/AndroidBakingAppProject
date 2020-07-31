@@ -1,17 +1,7 @@
 package com.salab.project.projectbakingrecipe.models;
 
-import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.PrimaryKey;
-
-import static androidx.room.ForeignKey.CASCADE;
-
-@Entity(tableName = "recipe_step", foreignKeys =
-@ForeignKey(entity = Recipe.class, parentColumns = "id", childColumns = "recipeId", onDelete = CASCADE))
 public class RecipeStep {
 
-    @PrimaryKey
-    private int dbId;
     private int id;
     private int recipeId;
     private String shortDescription;
@@ -61,14 +51,6 @@ public class RecipeStep {
 
     public void setThumbnailURL(String thumbnailURL) {
         this.thumbnailURL = thumbnailURL;
-    }
-
-    public int getDbId() {
-        return dbId;
-    }
-
-    public void setDbId(int dbId) {
-        this.dbId = dbId;
     }
 
     public int getRecipeId() {
