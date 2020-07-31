@@ -43,29 +43,28 @@ public class RecipeActivity extends AppCompatActivity  {
             Log.d(TAG, "invalid start");
         }
 
-        if (mRecipeId != -1 && savedInstanceState == null){
+        if (mRecipeId != -1){
             // only create new instances of fragments when fresh activity created (not configuration change)
             initFragments();
-
-            RecipeDetailSharedViewModelFactory factory = new RecipeDetailSharedViewModelFactory(this.getApplication(), mRecipeId);
-            RecipeDetailSharedViewModel viewModel = new ViewModelProvider(this, factory).get(RecipeDetailSharedViewModel.class);
-
-            viewModel.getmSelectedRecipeStep().observe(this, recipeStep -> {
-                // get notifies when recipeStep changed (= StepClick -> change recipe -> activity do action)
-                Log.d(TAG, "Observer recipe step changed");
-                int containerId;
-
-                if (mTwoPane){
-                    containerId = R.id.container_recipe_step_detail;
-                } else {
-                    containerId = R.id.container_recipe_detail;
-                }
-
-                mFragmentManager.beginTransaction()
-                        .replace(containerId, recipeStepFragment)
-                        .commit();
-            });
         }
+        RecipeDetailSharedViewModelFactory factory = new RecipeDetailSharedViewModelFactory(this.getApplication(), mRecipeId);
+        RecipeDetailSharedViewModel viewModel = new ViewModelProvider(this, factory).get(RecipeDetailSharedViewModel.class);
+
+        viewModel.getmSelectedRecipeStep().observe(this, recipeStep -> {
+            // get notifies when recipeStep changed (= StepClick -> change recipe -> activity do action)
+            Log.d(TAG, "Observer recipe step changed");
+            int containerId;
+
+            if (mTwoPane){
+                containerId = R.id.container_recipe_step_detail;
+            } else {
+                containerId = R.id.container_recipe_detail;
+            }
+
+            mFragmentManager.beginTransaction()
+                    .replace(containerId, recipeStepFragment)
+                    .commit();
+        });
     }
 
     private void initFragments() {

@@ -20,6 +20,8 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:text="@string/label_step_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pv_step_video" />
 
     <TextView
@@ -29,6 +31,8 @@
         android:layout_height="wrap_content"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_step_label_detail_desc"
         tools:text="1. Preheat the oven to 350\u00b0F. Butter a 9\' deep dish pie pan." />
 

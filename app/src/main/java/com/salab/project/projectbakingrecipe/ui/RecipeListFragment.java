@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.salab.project.projectbakingrecipe.models.Recipe;
 import com.salab.project.projectbakingrecipe.adapter.RecipeListAdapter;
 import com.salab.project.projectbakingrecipe.databinding.FragmentRecipeListBinding;
 import com.salab.project.projectbakingrecipe.viewmodels.RecipeListViewModel;
@@ -39,6 +38,7 @@ public class RecipeListFragment extends Fragment implements RecipeListAdapter.Re
 
     public RecipeListFragment() {
         // Required empty public constructor
+        Log.d(TAG, "New " + TAG + " instance is created.");
     }
 
 
@@ -90,7 +90,7 @@ public class RecipeListFragment extends Fragment implements RecipeListAdapter.Re
             mBiding.progressRecipeList.setVisibility(View.VISIBLE);
         } else {
             mBiding.rvRecipeList.setVisibility(View.VISIBLE);
-            mBiding.progressRecipeList.setVisibility(View.INVISIBLE);
+            mBiding.progressRecipeList.setVisibility(View.GONE);
         }
     }
 

@@ -24,9 +24,10 @@ import com.salab.project.projectbakingrecipe.viewmodels.RecipeDetailSharedViewMo
  */
 public class RecipeStepFragment extends Fragment {
 
+    private static final String TAG = RecipeListFragment.class.getSimpleName();
+
     private static final String ARG_RECIPE_ID = "recipe_argument";
     private static final String ARG_STEP_INDEX_ID = "step_argument";
-    private static final String TAG = RecipeStepFragment.class.getSimpleName();
 
     private int mRecipeId;
     private int mStepId;
@@ -36,6 +37,7 @@ public class RecipeStepFragment extends Fragment {
 
     public RecipeStepFragment() {
         // Required empty public constructor
+        Log.d(TAG, "New " + TAG + " instance is created.");
     }
 
 
@@ -63,7 +65,7 @@ public class RecipeStepFragment extends Fragment {
         mBinding = FragmentRecipeStepBinding.inflate(inflater, container, false);
 
         // Hide system UIs and action bar
-        if (mIsLandscapeMode) setFullScreen();
+//        if (mIsLandscapeMode) setFullScreen();
         return mBinding.getRoot();
     }
 
@@ -77,14 +79,15 @@ public class RecipeStepFragment extends Fragment {
 
             RecipeDetailSharedViewModelFactory factory = new RecipeDetailSharedViewModelFactory(getActivity().getApplication(), mRecipeId);
             mViewModel = new ViewModelProvider(getActivity(), factory).get(RecipeDetailSharedViewModel.class);
-            mViewModel.getmSelectedRecipeStep().observe(this, RecipeStep -> {
+            mViewModel.getmSelectedRecipeStep().observe(getViewLifecycleOwner(), RecipeStep -> {
                 mBinding.tvStepDetailDesc.setText(RecipeStep.getDescription());
                 Log.d(TAG, "Observe RecipeStep changed");
             });
 
         }
 
-        mBinding.fabPreviousStep.setOnClickListener(new View.OnClickListener(){
+        // previous, next steps button are available in portrait mode
+        mBinding.fabPreviousStep.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -92,7 +95,7 @@ public class RecipeStepFragment extends Fragment {
             }
         });
 
-        mBinding.fabNextStep.setOnClickListener(new View.OnClickListener(){
+        mBinding.fabNextStep.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
