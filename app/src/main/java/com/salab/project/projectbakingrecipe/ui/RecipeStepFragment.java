@@ -1,6 +1,7 @@
 package com.salab.project.projectbakingrecipe.ui;
 
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 import com.salab.project.projectbakingrecipe.databinding.FragmentRecipeStepBinding;
 import com.salab.project.projectbakingrecipe.viewmodels.RecipeDetailSharedViewModel;
 import com.salab.project.projectbakingrecipe.viewmodels.RecipeDetailSharedViewModelFactory;
@@ -31,9 +39,11 @@ public class RecipeStepFragment extends Fragment {
 
     private int mRecipeId;
     private int mStepId;
+    private SimpleExoPlayer mExoPlayer;
     private FragmentRecipeStepBinding mBinding;
     private boolean mIsLandscapeMode;
     RecipeDetailSharedViewModel mViewModel;
+    DataSource.Factory mMediaSourceFactory;
 
     public RecipeStepFragment() {
         // Required empty public constructor
@@ -81,12 +91,20 @@ public class RecipeStepFragment extends Fragment {
             mViewModel = new ViewModelProvider(getActivity(), factory).get(RecipeDetailSharedViewModel.class);
             mViewModel.getmSelectedRecipeStep().observe(getViewLifecycleOwner(), RecipeStep -> {
                 mBinding.tvStepDetailDesc.setText(RecipeStep.getDescription());
+
+                // video priority VideoURL -> ThumbnailURL
+                if (RecipeStep.getVideoURL() != null) {
+                    loadVideoToPlayer(RecipeStep.getVideoURL());
+                } else if (RecipeStep.getThumbnailURL() != null) {
+                    loadVideoToPlayer(RecipeStep.getThumbnailURL());
+                } else {
+                    Log.d(TAG, "No video available for this step");
+                }
+
                 Log.d(TAG, "Observe RecipeStep changed");
             });
-
         }
 
-        // previous, next steps button are available in portrait mode
         mBinding.fabPreviousStep.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -103,9 +121,33 @@ public class RecipeStepFragment extends Fragment {
             }
         });
 
+        initExoPlayer();
+
     }
 
+    private void initExoPlayer() {
+        mExoPlayer = new SimpleExoPlayer.Builder(getContext()).build();
+        mExoPlayer.setPlayWhenReady(true);
+        mExoPlayer.setRepeatMode(ExoPlayer.REPEAT_MODE_ONE);
+        mBinding.pvStepVideo.setPlayer(mExoPlayer);
 
+        mMediaSourceFactory = new DefaultDataSourceFactory(getContext(),
+                Util.getUserAgent(getContext(), "Baking"));
+    }
+
+    private void loadVideoToPlayer(String videoUrl) {
+
+        Uri uri = Uri.parse(videoUrl);
+        MediaSource video = new ProgressiveMediaSource.Factory(mMediaSourceFactory).createMediaSource(uri);
+        mExoPlayer.prepare(video);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mExoPlayer.stop(true);
+        mExoPlayer.release();
+    }
 
     private void setFullScreen() {
 
