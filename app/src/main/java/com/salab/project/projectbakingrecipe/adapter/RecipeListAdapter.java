@@ -61,6 +61,12 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         }
     }
 
+    public void setmRecipeList(List<Recipe> RecipeList){
+        mRecipeList = RecipeList;
+        notifyDataSetChanged();
+    }
+
+
     class RecipeListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         protected ImageView mRecipeImageImageView;
         protected TextView mRecipeNameTextView;

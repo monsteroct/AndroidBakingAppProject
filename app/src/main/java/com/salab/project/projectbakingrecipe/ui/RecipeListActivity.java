@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.salab.project.projectbakingrecipe.R;
+import com.salab.project.projectbakingrecipe.repository.RecipeRepository;
 
 public class RecipeListActivity extends AppCompatActivity {
 
