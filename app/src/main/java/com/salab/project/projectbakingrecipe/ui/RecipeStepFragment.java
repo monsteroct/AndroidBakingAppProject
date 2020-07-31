@@ -3,7 +3,10 @@ package com.salab.project.projectbakingrecipe.ui;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.salab.project.projectbakingrecipe.databinding.FragmentRecipeStepBinding;
+import com.salab.project.projectbakingrecipe.viewmodels.RecipeDetailSharedViewModel;
+import com.salab.project.projectbakingrecipe.viewmodels.RecipeDetailSharedViewModelFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,24 +25,25 @@ import com.salab.project.projectbakingrecipe.databinding.FragmentRecipeStepBindi
 public class RecipeStepFragment extends Fragment {
 
     private static final String ARG_RECIPE_ID = "recipe_argument";
-    private static final String ARG_STEP_ID = "step_argument";
+    private static final String ARG_STEP_INDEX_ID = "step_argument";
     private static final String TAG = RecipeStepFragment.class.getSimpleName();
 
     private int mRecipeId;
     private int mStepId;
     private FragmentRecipeStepBinding mBinding;
     private boolean mIsLandscapeMode;
+    RecipeDetailSharedViewModel mViewModel;
 
     public RecipeStepFragment() {
         // Required empty public constructor
     }
 
 
-    public static RecipeStepFragment newInstance(int recipeId, int stepId) {
+    public static RecipeStepFragment newInstance(int recipeId, int stepIndexId) {
         RecipeStepFragment fragment = new RecipeStepFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_RECIPE_ID, recipeId);
-        args.putInt(ARG_STEP_ID, stepId);
+        args.putInt(ARG_STEP_INDEX_ID, stepIndexId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -45,11 +51,7 @@ public class RecipeStepFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mRecipeId = getArguments().getInt(ARG_RECIPE_ID);
-            mStepId = getArguments().getInt(ARG_STEP_ID);
-        }
-        Log.d(TAG, "Detail Recipe Step started, with recipe/step Id = " + mRecipeId + ", " + mStepId);
+
         // check orientation of device
         mIsLandscapeMode = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
@@ -62,10 +64,45 @@ public class RecipeStepFragment extends Fragment {
 
         // Hide system UIs and action bar
         if (mIsLandscapeMode) setFullScreen();
-
-
         return mBinding.getRoot();
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (getArguments() != null) {
+            mRecipeId = getArguments().getInt(ARG_RECIPE_ID);
+            mStepId = getArguments().getInt(ARG_STEP_INDEX_ID);
+            Log.d(TAG, "Detail Recipe Step started, with recipe/step Id = " + mRecipeId + ", " + mStepId);
+
+            RecipeDetailSharedViewModelFactory factory = new RecipeDetailSharedViewModelFactory(getActivity().getApplication(), mRecipeId);
+            mViewModel = new ViewModelProvider(getActivity(), factory).get(RecipeDetailSharedViewModel.class);
+            mViewModel.getmSelectedRecipeStep().observe(this, RecipeStep -> {
+                mBinding.tvStepDetailDesc.setText(RecipeStep.getDescription());
+                Log.d(TAG, "Observe RecipeStep changed");
+            });
+
+        }
+
+        mBinding.fabPreviousStep.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                mViewModel.getPreviousRecipeStep();
+            }
+        });
+
+        mBinding.fabNextStep.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                mViewModel.getNextRecipeStep();
+            }
+        });
+
+    }
+
+
 
     private void setFullScreen() {
 

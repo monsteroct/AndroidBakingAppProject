@@ -58,6 +58,11 @@ public class RecipeStepListAdapter extends RecyclerView.Adapter<RecipeStepListAd
         }
     }
 
+    public void setmRecipeStepList(List<RecipeStep> recipeStepList){
+        mRecipeStepList = recipeStepList;
+        notifyDataSetChanged();
+    }
+
     class RecipeStepListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView mRecipeStepDescTextView;

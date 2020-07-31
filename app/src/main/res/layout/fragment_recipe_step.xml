@@ -36,7 +36,6 @@
         android:id="@+id/fab_previous_step"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         app:layout_constraintHorizontal_chainStyle="packed"
         android:contentDescription="@string/content_prev_step"
         android:src="@drawable/ic_prev_step"
@@ -51,8 +50,7 @@
         android:id="@+id/fab_next_step"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        android:contentDescription="@string/content_prev_step"
+        android:contentDescription="@string/content_next_step"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="16dp"
         android:background="@color/colorAccent"
@@ -60,7 +58,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/fab_previous_step" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

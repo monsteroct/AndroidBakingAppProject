@@ -2,15 +2,17 @@ package com.salab.project.projectbakingrecipe.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.salab.project.projectbakingrecipe.R;
-import com.salab.project.projectbakingrecipe.adapter.RecipeStepListAdapter;
+import com.salab.project.projectbakingrecipe.viewmodels.RecipeDetailSharedViewModel;
+import com.salab.project.projectbakingrecipe.viewmodels.RecipeDetailSharedViewModelFactory;
 
-public class RecipeActivity extends AppCompatActivity  implements RecipeStepListAdapter.RecipeStepOnClickListener{
+public class RecipeActivity extends AppCompatActivity  {
 
     public static final String EXTRA_RECIPE_ID = "selected_recipe_id";
     private static final String TAG = RecipeActivity.class.getSimpleName();
@@ -44,6 +46,25 @@ public class RecipeActivity extends AppCompatActivity  implements RecipeStepList
         if (mRecipeId != -1 && savedInstanceState == null){
             // only create new instances of fragments when fresh activity created (not configuration change)
             initFragments();
+
+            RecipeDetailSharedViewModelFactory factory = new RecipeDetailSharedViewModelFactory(this.getApplication(), mRecipeId);
+            RecipeDetailSharedViewModel viewModel = new ViewModelProvider(this, factory).get(RecipeDetailSharedViewModel.class);
+
+            viewModel.getmSelectedRecipeStep().observe(this, recipeStep -> {
+                // get notifies when recipeStep changed (= StepClick -> change recipe -> activity do action)
+                Log.d(TAG, "Observer recipe step changed");
+                int containerId;
+
+                if (mTwoPane){
+                    containerId = R.id.container_recipe_step_detail;
+                } else {
+                    containerId = R.id.container_recipe_detail;
+                }
+
+                mFragmentManager.beginTransaction()
+                        .replace(containerId, recipeStepFragment)
+                        .commit();
+            });
         }
     }
 
@@ -64,21 +85,5 @@ public class RecipeActivity extends AppCompatActivity  implements RecipeStepList
                     .commit();
         }
 
-    }
-
-    @Override
-    public void onRecipeStepClick(int stepId) {
-        // decide step detail fragment should fill into which container
-        int containerId;
-
-        if (mTwoPane){
-            containerId = R.id.container_recipe_step_detail;
-        } else {
-            containerId = R.id.container_recipe_detail;
-        }
-
-        mFragmentManager.beginTransaction()
-                .replace(containerId, recipeStepFragment)
-                .commit();
     }
 }

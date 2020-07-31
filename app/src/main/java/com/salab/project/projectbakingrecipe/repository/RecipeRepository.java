@@ -7,7 +7,9 @@ import androidx.lifecycle.LiveData;
 
 import com.salab.project.projectbakingrecipe.ExecutorStore;
 import com.salab.project.projectbakingrecipe.database.AppDatabase;
+import com.salab.project.projectbakingrecipe.models.Ingredient;
 import com.salab.project.projectbakingrecipe.models.Recipe;
+import com.salab.project.projectbakingrecipe.models.RecipeStep;
 import com.salab.project.projectbakingrecipe.utils.NetWorkUtil;
 
 import java.io.IOException;
@@ -35,15 +37,17 @@ public class RecipeRepository {
         return mAppDatabase.recipeDao().queryAllRecipes();
     }
 
+    public LiveData<Recipe> getRecipeById(int recipeId){
+        updateFromWebIfEmpty();
+        return mAppDatabase.recipeDao().queryRecipeById(recipeId);
+    }
+
     private void updateFromWebIfEmpty(){
         // retrieve data from web service only when table is empty
-        mExecutorStore.getNetworkIO().execute(new Runnable() {
-            // both db query and network connection need to be run on background thread
-            @Override
-            public void run() {
-                if (mAppDatabase.recipeDao().getRowCount() == 0){
-                    fetchDataFromWeb();
-                }
+        // both db query and network connection need to be run on background thread
+        mExecutorStore.getNetworkIO().execute(() -> {
+            if (mAppDatabase.recipeDao().getRowCount() == 0){
+                fetchDataFromWeb();
             }
         });
     }

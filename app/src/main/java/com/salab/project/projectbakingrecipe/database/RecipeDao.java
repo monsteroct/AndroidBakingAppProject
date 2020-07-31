@@ -6,7 +6,9 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import com.salab.project.projectbakingrecipe.models.Ingredient;
 import com.salab.project.projectbakingrecipe.models.Recipe;
+import com.salab.project.projectbakingrecipe.models.RecipeStep;
 
 import java.util.List;
 @Dao
