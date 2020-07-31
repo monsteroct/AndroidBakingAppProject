@@ -12,6 +12,9 @@ import java.util.List;
 @Dao
 public interface RecipeDao {
 
+    @Query("SELECT count(*) FROM recipe")
+    int getRowCount();
+
     @Query("SELECT * FROM recipe")
     LiveData<List<Recipe>> queryAllRecipes();
 
@@ -19,6 +22,6 @@ public interface RecipeDao {
     LiveData<Recipe> queryRecipeById(int recipeId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertRecipes(Recipe... recipe);
+    void insertRecipes(List<Recipe> recipeList);
 
 }
