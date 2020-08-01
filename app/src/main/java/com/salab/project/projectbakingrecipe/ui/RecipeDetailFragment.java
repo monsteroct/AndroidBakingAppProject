@@ -40,7 +40,7 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepListAdap
 
     public RecipeDetailFragment() {
         // Required empty public constructor
-        Log.d(TAG, "New " + TAG + " instance is created. (no args)");
+        Log.d(TAG, "New " + TAG + " instance is created.");
     }
 
     public static RecipeDetailFragment newInstance(int recipeId) {
@@ -49,7 +49,6 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepListAdap
         Bundle args = new Bundle();
         args.putInt(ARG_RECIPE_ID, recipeId);
         fragment.setArguments(args);
-        Log.d(TAG, "New " + TAG + " instance is created.");
         return fragment;
     }
 
