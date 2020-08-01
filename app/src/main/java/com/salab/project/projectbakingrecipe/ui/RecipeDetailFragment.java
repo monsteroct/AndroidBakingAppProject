@@ -90,6 +90,12 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepListAdap
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mBinding = null;
+    }
+
     private void fillIngredientListToTextView(List<Ingredient> ingredientList) {
         // flatten Ingredient list to String for simplicity
         mBinding.tvDetailIngredientList.setText("");

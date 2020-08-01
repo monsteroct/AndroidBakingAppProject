@@ -68,6 +68,12 @@ public class RecipeListFragment extends Fragment implements RecipeListAdapter.Re
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mBiding = null;
+    }
+
     public void initRecyclerView(){
         // show loading progress bar
         showProgressBar(true);

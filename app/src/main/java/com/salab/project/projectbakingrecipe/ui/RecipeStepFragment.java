@@ -189,27 +189,6 @@ public class RecipeStepFragment extends Fragment {
         super.onDestroy();
         mExoPlayer.stop(true);
         mExoPlayer.release();
-    }
-
-
-
-
-
-    private void setFullScreen() {
-
-        getActivity().getWindow().getDecorView().setSystemUiVisibility(
-                //  hide system UI
-                  View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                //immersive mode
-                | View.SYSTEM_UI_FLAG_IMMERSIVE
-                //prevent layout resizing
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-
-        if(getActivity().getActionBar() != null){
-            getActivity().getActionBar().hide();
-        }
+        mBinding = null;
     }
 }
