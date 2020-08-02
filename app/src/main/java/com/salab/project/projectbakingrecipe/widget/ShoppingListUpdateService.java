@@ -25,15 +25,16 @@ public class ShoppingListUpdateService extends IntentService {
     public static final String ACTION_CONTENT_UPDATE = "content_update";
     public static final String ACTION_INGREDIENT_CHECKED = "ingredient_checked";
 
-    public static final String WIDGET_RECIPE_SHAREDPREFERENCE = "WidgetRecipe";
-    public static final String KEY_WIDGET_RECIPE_ID = "widget_recipe_id";
+    public static final String WIDGET_SHOPPING_LIST_SERVICE_NAME = "WidgetShoppingListService";
+    public static final String WIDGET_RECIPE_SHARED_PREFERENCE = "WidgetRecipe";
+    public static final String KEY_WIDGET_TRACING_RECIPE_ID = "widget_tracing_recipe_id";
     public static final String KEY_CLICKED_INGREDIENT_INDEX = "clicked_ingredient_id";
-    public static final String WIDGET_SHOPPING_LIST_SERVICE = "WidgetShoppingListService";
+
 
     private RecipeRepository mRepository;
 
     public ShoppingListUpdateService() {
-        super(WIDGET_SHOPPING_LIST_SERVICE);
+        super(WIDGET_SHOPPING_LIST_SERVICE_NAME);
         Log.d(TAG, "new Instance created");
     }
 
@@ -41,7 +42,7 @@ public class ShoppingListUpdateService extends IntentService {
         // gateway allows programmatically trigger change recipe procedure
         Intent intent = new Intent(context, ShoppingListUpdateService.class);
         intent.setAction(ACTION_CHANGE_RECIPE);
-        intent.putExtra(KEY_WIDGET_RECIPE_ID, recipeId);
+        intent.putExtra(KEY_WIDGET_TRACING_RECIPE_ID, recipeId);
         context.startService(intent);
     }
 
@@ -52,10 +53,9 @@ public class ShoppingListUpdateService extends IntentService {
         context.startService(intent);
     }
 
-
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        // accept intents from widget or app itself and redirect to proper functions
+        // accept intents from widget or app internal and redirect to proper functions
         if (intent == null || intent.getAction() == null){return;}
 
         String intentAction = intent.getAction();
@@ -64,8 +64,8 @@ public class ShoppingListUpdateService extends IntentService {
         switch (intentAction){
             case ACTION_CHANGE_RECIPE:
                 // show the ingredient list on widget
-                if (intent.hasExtra(KEY_WIDGET_RECIPE_ID)){
-                    saveRecipeChoice(intent.getIntExtra(KEY_WIDGET_RECIPE_ID,0));
+                if (intent.hasExtra(KEY_WIDGET_TRACING_RECIPE_ID)){
+                    saveRecipeChoice(intent.getIntExtra(KEY_WIDGET_TRACING_RECIPE_ID,0));
                 }
                 break;
             case ACTION_CONTENT_UPDATE:
@@ -96,19 +96,14 @@ public class ShoppingListUpdateService extends IntentService {
         }
         Recipe selectedRecipe = getRepositoryInstance().getRecipeByIdRaw(readRecipeChoice());
         List<Ingredient> ingredientList = selectedRecipe.getIngredients();
-
         Ingredient clickedIngredient = ingredientList.get(ingredientPosition);
-        //swap isPurchased Flag when it is clicked
-        Log.d(TAG, String.valueOf(clickedIngredient.isPurchased()));
+
+        //swap isPurchased Flag when it is clicked and save changes to database
         clickedIngredient.setPurchased(!clickedIngredient.isPurchased());
-
-        Log.d(TAG, String.valueOf(selectedRecipe.getIngredients().get(ingredientPosition).isPurchased()));
-
         getRepositoryInstance().saveRecipeChanges(selectedRecipe);
 
         // trigger widget update
         startContentUpdateService(this);
-
     }
 
     private void updateWidgetContent() {
@@ -129,8 +124,8 @@ public class ShoppingListUpdateService extends IntentService {
 
     private void saveRecipeChoice(int recipeId) {
         // save choice in SharedPreferences
-        SharedPreferences.Editor editor = getSharedPreferences(WIDGET_RECIPE_SHAREDPREFERENCE, MODE_PRIVATE).edit();
-        editor.putInt(KEY_WIDGET_RECIPE_ID, recipeId);
+        SharedPreferences.Editor editor = getSharedPreferences(WIDGET_RECIPE_SHARED_PREFERENCE, MODE_PRIVATE).edit();
+        editor.putInt(KEY_WIDGET_TRACING_RECIPE_ID, recipeId);
         editor.apply();
         Log.d(TAG, "save recipe id: " + recipeId + " into SharedPreferences");
 
@@ -139,9 +134,8 @@ public class ShoppingListUpdateService extends IntentService {
     }
 
     private int readRecipeChoice() {
-        //save choice in SharedPreferences
-        return getSharedPreferences(WIDGET_RECIPE_SHAREDPREFERENCE, MODE_PRIVATE)
-                .getInt(KEY_WIDGET_RECIPE_ID, -1);
+        return getSharedPreferences(WIDGET_RECIPE_SHARED_PREFERENCE, MODE_PRIVATE)
+                .getInt(KEY_WIDGET_TRACING_RECIPE_ID, -1);
     }
 
 

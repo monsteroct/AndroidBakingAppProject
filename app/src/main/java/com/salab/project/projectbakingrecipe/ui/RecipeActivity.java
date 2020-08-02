@@ -16,8 +16,8 @@ import com.salab.project.projectbakingrecipe.viewmodels.RecipeDetailSharedViewMo
 import com.salab.project.projectbakingrecipe.viewmodels.RecipeDetailSharedViewModelFactory;
 import com.salab.project.projectbakingrecipe.widget.ShoppingListUpdateService;
 
-import static com.salab.project.projectbakingrecipe.widget.ShoppingListUpdateService.KEY_WIDGET_RECIPE_ID;
-import static com.salab.project.projectbakingrecipe.widget.ShoppingListUpdateService.WIDGET_RECIPE_SHAREDPREFERENCE;
+import static com.salab.project.projectbakingrecipe.widget.ShoppingListUpdateService.KEY_WIDGET_TRACING_RECIPE_ID;
+import static com.salab.project.projectbakingrecipe.widget.ShoppingListUpdateService.WIDGET_RECIPE_SHARED_PREFERENCE;
 
 public class RecipeActivity extends AppCompatActivity  {
 
@@ -98,7 +98,7 @@ public class RecipeActivity extends AppCompatActivity  {
         getMenuInflater().inflate(R.menu.detail_menu, menu);
 
         // change icon if the recipe is the traced one
-        int saveRecipeId = getSharedPreferences(WIDGET_RECIPE_SHAREDPREFERENCE, MODE_PRIVATE).getInt(KEY_WIDGET_RECIPE_ID, -1);
+        int saveRecipeId = getSharedPreferences(WIDGET_RECIPE_SHARED_PREFERENCE, MODE_PRIVATE).getInt(KEY_WIDGET_TRACING_RECIPE_ID, -1);
         if (saveRecipeId != -1 && saveRecipeId == mRecipeId){
             MenuItem item = menu.findItem(R.id.menu_item_recipe_trace_button);
             item.setIcon(R.drawable.ic_baseline_turned_in_24);

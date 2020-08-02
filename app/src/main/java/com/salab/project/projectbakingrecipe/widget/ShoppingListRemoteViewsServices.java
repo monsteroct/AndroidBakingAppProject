@@ -15,8 +15,8 @@ import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.salab.project.projectbakingrecipe.widget.ShoppingListUpdateService.KEY_CLICKED_INGREDIENT_INDEX;
-import static com.salab.project.projectbakingrecipe.widget.ShoppingListUpdateService.KEY_WIDGET_RECIPE_ID;
-import static com.salab.project.projectbakingrecipe.widget.ShoppingListUpdateService.WIDGET_RECIPE_SHAREDPREFERENCE;
+import static com.salab.project.projectbakingrecipe.widget.ShoppingListUpdateService.KEY_WIDGET_TRACING_RECIPE_ID;
+import static com.salab.project.projectbakingrecipe.widget.ShoppingListUpdateService.WIDGET_RECIPE_SHARED_PREFERENCE;
 
 public class ShoppingListRemoteViewsServices extends RemoteViewsService {
     @Override
@@ -46,8 +46,9 @@ class ShoppingListRemoteViewsServicesFactory implements RemoteViewsService.Remot
 
     @Override
     public void onDataSetChanged() {
+        // whenever it is notified that the dataset is changed -> query again
         RecipeRepository repository = new RecipeRepository(mContext);
-        int recipeId = mContext.getSharedPreferences(WIDGET_RECIPE_SHAREDPREFERENCE, MODE_PRIVATE).getInt(KEY_WIDGET_RECIPE_ID, -1);
+        int recipeId = mContext.getSharedPreferences(WIDGET_RECIPE_SHARED_PREFERENCE, MODE_PRIVATE).getInt(KEY_WIDGET_TRACING_RECIPE_ID, -1);
         if (recipeId != -1){
             Recipe recipe = repository.getRecipeByIdRaw(recipeId);
             mIngredientList = recipe.getIngredients();
@@ -55,8 +56,7 @@ class ShoppingListRemoteViewsServicesFactory implements RemoteViewsService.Remot
             // has no favorite recipe been set
             mIngredientList = null;
         }
-        Log.d(TAG, "on data set change called. Saved recipeId is: " + recipeId);
-
+        Log.d(TAG, "on data set change called. Current recipeId is: " + recipeId);
     }
 
     @Override
@@ -84,9 +84,8 @@ class ShoppingListRemoteViewsServicesFactory implements RemoteViewsService.Remot
         view.setTextViewText(R.id.tv_widget_ingredient_qty, String.valueOf(selectedIngredient.getQuantity()));
         view.setTextViewText(R.id.tv_widget_ingredient_meas, selectedIngredient.getMeasure());
 
-        // change check image depends on data
+        // change checkbox image depends on isPurchased flag
         if (selectedIngredient.isPurchased()){
-            Log.d(TAG, "is purchased");
             view.setImageViewResource(R.id.iv_widget_ingredient_checkbox, R.drawable.ic_baseline_check_box_24);
         } else {
             view.setImageViewResource(R.id.iv_widget_ingredient_checkbox, R.drawable.ic_baseline_check_box_outline_blank_24);
@@ -95,7 +94,6 @@ class ShoppingListRemoteViewsServicesFactory implements RemoteViewsService.Remot
         Intent fillIntent = new Intent();
         fillIntent.putExtra(KEY_CLICKED_INGREDIENT_INDEX, position);
         view.setOnClickFillInIntent(R.id.wrapper_widget_ingredient_list, fillIntent);
-        Log.d(TAG, "Widget item " + position + " is created");
         return view;
     }
 
