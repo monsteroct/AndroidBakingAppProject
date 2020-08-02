@@ -42,6 +42,11 @@ public class RecipeRepository {
         return mAppDatabase.recipeDao().queryRecipeById(recipeId);
     }
 
+    public Recipe getRecipeByIdRaw(int recipeId){
+        // widget request raw data instead of wrapped in LiveData
+        return mAppDatabase.recipeDao().queryRecipeByIdRaw(recipeId);
+    }
+
     private void updateFromWebIfEmpty(){
         // retrieve data from web service only when table is empty
         // both db query and network connection need to be run on background thread

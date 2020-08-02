@@ -3,6 +3,7 @@
 
     <!-- error message -->
     <string name="error_loading_recipe_list">loading_recipe_list_error</string>
+    <string name="error_empty_widget">Track one favorite recipe and track the ingredient shopping list</string>
 
     <!-- image content description -->
     <string name="content_recipe_item_image">Recipe item image</string>
@@ -18,5 +19,8 @@
     <string name="msg_step_desc">Step %1$d: %2$s</string>
     <string name="content_prev_step">prev_step</string>
     <string name="content_next_step">next step</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+
 
 </resources>
