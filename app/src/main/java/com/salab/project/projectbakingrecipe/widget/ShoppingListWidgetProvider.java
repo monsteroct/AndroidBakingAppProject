@@ -14,6 +14,7 @@ import com.salab.project.projectbakingrecipe.ui.RecipeActivity;
 import com.salab.project.projectbakingrecipe.ui.RecipeListActivity;
 
 import static com.salab.project.projectbakingrecipe.ui.RecipeActivity.EXTRA_RECIPE_ID;
+import static com.salab.project.projectbakingrecipe.widget.ShoppingListUpdateService.ACTION_INGREDIENT_CHECKED;
 
 /**
  * Implementation of App Widget functionality.
@@ -23,12 +24,14 @@ public class ShoppingListWidgetProvider extends AppWidgetProvider {
     private static final String TAG = ShoppingListWidgetProvider.class.getSimpleName();
     public static final int RECIPE_DETAIL_REQUEST_CODE = 0;
     public static final int RECIPE_LIST_REQUEST_CODE = 1;
+    public static final int ITEM_CHECK_REQUEST_CODE = 2;
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId, Recipe selectedRecipe) {
 
         boolean isEmpty = selectedRecipe == null;
 
+        // TODO : reorganize logic here
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.shopping_list);
         if (!isEmpty) {
@@ -45,14 +48,24 @@ public class ShoppingListWidgetProvider extends AppWidgetProvider {
                     PendingIntent.FLAG_UPDATE_CURRENT);
 
             views.setOnClickPendingIntent(R.id.tv_widget_recipe_name, recipeDetailPendingIntent);
+
         } else {
             views.setTextViewText(R.id.tv_widget_recipe_name, "");
             views.setTextViewText(R.id.tv_widget_recipe_servings, "");
         }
 
+        Intent itemCheckIntent = new Intent(context, ShoppingListUpdateService.class);
+        itemCheckIntent.setAction(ACTION_INGREDIENT_CHECKED);
+        PendingIntent itemCheckPendingIntent = PendingIntent.getService(context,
+                ITEM_CHECK_REQUEST_CODE,
+                itemCheckIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
         views.setRemoteAdapter(R.id.lv_widget_ingredient_list, new Intent(context, ShoppingListRemoteViewsServices.class));
+        views.setPendingIntentTemplate(R.id.lv_widget_ingredient_list, itemCheckPendingIntent);
         // alternative view when there's no favorite recipe
         views.setEmptyView(R.id.lv_widget_ingredient_list, R.id.tv_widget_empty_view);
+
 
         if (isEmpty){
             // when there's no favorite recipe. click alternative view will redirect to recipe list activity

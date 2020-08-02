@@ -11,8 +11,11 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.salab.project.projectbakingrecipe.R;
+import com.salab.project.projectbakingrecipe.models.Ingredient;
 import com.salab.project.projectbakingrecipe.models.Recipe;
 import com.salab.project.projectbakingrecipe.repository.RecipeRepository;
+
+import java.util.List;
 
 public class ShoppingListUpdateService extends IntentService {
 
@@ -21,9 +24,13 @@ public class ShoppingListUpdateService extends IntentService {
     public static final String ACTION_CHANGE_RECIPE = "change_recipe";
     public static final String ACTION_CONTENT_UPDATE = "content_update";
     public static final String ACTION_INGREDIENT_CHECKED = "ingredient_checked";
+
     public static final String WIDGET_RECIPE_SHAREDPREFERENCE = "WidgetRecipe";
     public static final String KEY_WIDGET_RECIPE_ID = "widget_recipe_id";
+    public static final String KEY_CLICKED_INGREDIENT_INDEX = "clicked_ingredient_id";
     public static final String WIDGET_SHOPPING_LIST_SERVICE = "WidgetShoppingListService";
+
+    private RecipeRepository mRepository;
 
     public ShoppingListUpdateService() {
         super(WIDGET_SHOPPING_LIST_SERVICE);
@@ -65,15 +72,49 @@ public class ShoppingListUpdateService extends IntentService {
                 // update widget data is requested (other than list)
                 updateWidgetContent();
                 break;
+
+            case ACTION_INGREDIENT_CHECKED:
+                // update ingredient check or not and save into database
+                if (intent.hasExtra(KEY_CLICKED_INGREDIENT_INDEX)){
+                    updateIngredientItem(intent.getIntExtra(KEY_CLICKED_INGREDIENT_INDEX,-1));
+                }
+                break;
         }
+    }
+
+    private RecipeRepository getRepositoryInstance() {
+        if (mRepository == null){
+            mRepository = new RecipeRepository(this);
+        }
+        return mRepository;
+    }
+
+    private void updateIngredientItem(int ingredientPosition) {
+        if (ingredientPosition == -1){
+            Log.d(TAG, "invalid ingredientPosition");
+            return;
+        }
+        Recipe selectedRecipe = getRepositoryInstance().getRecipeByIdRaw(readRecipeChoice());
+        List<Ingredient> ingredientList = selectedRecipe.getIngredients();
+
+        Ingredient clickedIngredient = ingredientList.get(ingredientPosition);
+        //swap isPurchased Flag when it is clicked
+        Log.d(TAG, String.valueOf(clickedIngredient.isPurchased()));
+        clickedIngredient.setPurchased(!clickedIngredient.isPurchased());
+
+        Log.d(TAG, String.valueOf(selectedRecipe.getIngredients().get(ingredientPosition).isPurchased()));
+
+        getRepositoryInstance().saveRecipeChanges(selectedRecipe);
+
+        // trigger widget update
+        startContentUpdateService(this);
+
     }
 
     private void updateWidgetContent() {
         // retrieve saved recipe id and query corresponding data.
         // then trigger AppWidgetProvider to assemble RemoteViews and update widgets
-        RecipeRepository repository = new RecipeRepository(this);
-
-        Recipe selectedRecipe = repository.getRecipeByIdRaw(readRecipeChoice());
+        Recipe selectedRecipe = getRepositoryInstance().getRecipeByIdRaw(readRecipeChoice());
 
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, ShoppingListWidgetProvider.class));
@@ -83,6 +124,7 @@ public class ShoppingListUpdateService extends IntentService {
 
         ShoppingListWidgetProvider.updateAppWidgets(this, appWidgetManager, appWidgetIds, selectedRecipe);
         Log.d(TAG, "updating widget with recipe Id: " + readRecipeChoice());
+
     }
 
     private void saveRecipeChoice(int recipeId) {

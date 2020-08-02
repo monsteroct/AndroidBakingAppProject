@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.salab.project.projectbakingrecipe.models.Ingredient;
 import com.salab.project.projectbakingrecipe.models.Recipe;
@@ -28,5 +29,8 @@ public interface RecipeDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertRecipes(List<Recipe> recipeList);
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    void updateRecipe(Recipe recipe);
 
 }

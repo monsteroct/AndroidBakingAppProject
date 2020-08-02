@@ -14,6 +14,7 @@ import com.salab.project.projectbakingrecipe.repository.RecipeRepository;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.salab.project.projectbakingrecipe.widget.ShoppingListUpdateService.KEY_CLICKED_INGREDIENT_INDEX;
 import static com.salab.project.projectbakingrecipe.widget.ShoppingListUpdateService.KEY_WIDGET_RECIPE_ID;
 import static com.salab.project.projectbakingrecipe.widget.ShoppingListUpdateService.WIDGET_RECIPE_SHAREDPREFERENCE;
 
@@ -48,7 +49,7 @@ class ShoppingListRemoteViewsServicesFactory implements RemoteViewsService.Remot
         RecipeRepository repository = new RecipeRepository(mContext);
         int recipeId = mContext.getSharedPreferences(WIDGET_RECIPE_SHAREDPREFERENCE, MODE_PRIVATE).getInt(KEY_WIDGET_RECIPE_ID, -1);
         if (recipeId != -1){
-            Recipe recipe = repository.getRecipeByIdRaw(1);
+            Recipe recipe = repository.getRecipeByIdRaw(recipeId);
             mIngredientList = recipe.getIngredients();
         } else {
             // has no favorite recipe been set
@@ -82,7 +83,19 @@ class ShoppingListRemoteViewsServicesFactory implements RemoteViewsService.Remot
         view.setTextViewText(R.id.tv_widget_ingredient_name, selectedIngredient.getIngredient());
         view.setTextViewText(R.id.tv_widget_ingredient_qty, String.valueOf(selectedIngredient.getQuantity()));
         view.setTextViewText(R.id.tv_widget_ingredient_meas, selectedIngredient.getMeasure());
-//        Log.d(TAG, "Widget item " + position + " is created");
+
+        // change check image depends on data
+        if (selectedIngredient.isPurchased()){
+            Log.d(TAG, "is purchased");
+            view.setImageViewResource(R.id.iv_widget_ingredient_checkbox, R.drawable.ic_baseline_check_box_24);
+        } else {
+            view.setImageViewResource(R.id.iv_widget_ingredient_checkbox, R.drawable.ic_baseline_check_box_outline_blank_24);
+        }
+
+        Intent fillIntent = new Intent();
+        fillIntent.putExtra(KEY_CLICKED_INGREDIENT_INDEX, position);
+        view.setOnClickFillInIntent(R.id.wrapper_widget_ingredient_list, fillIntent);
+        Log.d(TAG, "Widget item " + position + " is created");
         return view;
     }
 
