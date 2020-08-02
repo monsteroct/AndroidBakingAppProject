@@ -37,37 +37,43 @@ public class RecipeActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
 
+        // Get passed recipe id from intent. Return to last activity if the id is invalid
+        Intent receivedIntent = getIntent();
+        if (receivedIntent != null && receivedIntent.hasExtra(EXTRA_RECIPE_ID)){
+            mRecipeId = receivedIntent.getIntExtra(EXTRA_RECIPE_ID, -1);
+        } else {
+            onBackPressed();
+            Log.d(TAG, "invalid start");
+        }
+
+        // check one / two pane mode based on layout file difference (sw600dp)
         if (findViewById(R.id.container_recipe_step_detail) != null){
             mTwoPane = true;
             Log.d(TAG, "Recipe detail page in two pane mode");
         }
 
-        Intent receivedIntent = getIntent();
-        if (receivedIntent != null && receivedIntent.hasExtra(EXTRA_RECIPE_ID)){
-            // get recipe id to display recipe detail
-            mRecipeId = receivedIntent.getIntExtra(EXTRA_RECIPE_ID, -1);
-        } else {
-            Log.d(TAG, "invalid start");
-        }
-
-        if (mRecipeId != -1){
+        if (savedInstanceState == null){
             // only create new instances of fragments when fresh activity created (not configuration change)
             initFragments();
         }
+
+        initViewModel();
+    }
+
+    private void initViewModel() {
         RecipeDetailSharedViewModelFactory factory = new RecipeDetailSharedViewModelFactory(this.getApplication(), mRecipeId);
         RecipeDetailSharedViewModel viewModel = new ViewModelProvider(this, factory).get(RecipeDetailSharedViewModel.class);
 
         viewModel.getmSelectedRecipeStep().observe(this, recipeStep -> {
-            // get notifies when recipeStep changed (= StepClick -> change recipe -> activity do action)
             Log.d(TAG, "Observer recipe step changed");
             int containerId;
-
             if (mTwoPane){
+                // one pane: share one container
                 containerId = R.id.container_recipe_step_detail;
             } else {
+                // two pane: two individual containers
                 containerId = R.id.container_recipe_detail;
             }
-
             mFragmentManager.beginTransaction()
                     .replace(containerId, recipeStepFragment)
                     .commit();
@@ -90,7 +96,7 @@ public class RecipeActivity extends AppCompatActivity  {
                     .add(R.id.container_recipe_step_detail, recipeStepFragment)
                     .commit();
         }
-
+        Log.d(TAG,"fragments created");
     }
 
     @Override
@@ -109,6 +115,7 @@ public class RecipeActivity extends AppCompatActivity  {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // TODO : add TOAST Message
         int itemId = item.getItemId();
         if (itemId == R.id.menu_item_recipe_trace_button){
             if (item.isChecked()){
