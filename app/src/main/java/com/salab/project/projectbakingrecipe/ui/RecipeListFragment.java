@@ -6,12 +6,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,9 +20,6 @@ import com.salab.project.projectbakingrecipe.adapter.RecipeListAdapter;
 import com.salab.project.projectbakingrecipe.databinding.FragmentRecipeListBinding;
 import com.salab.project.projectbakingrecipe.viewmodels.RecipeListViewModel;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.salab.project.projectbakingrecipe.ui.RecipeActivity.EXTRA_RECIPE_ID;
 
 /**
@@ -32,9 +28,10 @@ import static com.salab.project.projectbakingrecipe.ui.RecipeActivity.EXTRA_RECI
 public class RecipeListFragment extends Fragment implements RecipeListAdapter.RecipeItemClickListener{
 
     private static final String TAG = RecipeListFragment.class.getSimpleName();
+    public static int mNumSpan = 1;
 
-    FragmentRecipeListBinding mBiding;
-    RecipeListAdapter mAdapter;
+    private FragmentRecipeListBinding mBiding;
+    private RecipeListAdapter mAdapter;
 
     public RecipeListFragment() {
         // Required empty public constructor
@@ -47,17 +44,16 @@ public class RecipeListFragment extends Fragment implements RecipeListAdapter.Re
                              Bundle savedInstanceState) {
         // Inflate the layout with ViewBiding
         mBiding = FragmentRecipeListBinding.inflate(inflater, container, false);
-
-        initRecyclerView();
-
         return mBiding.getRoot();
-
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        initRecyclerView();
+
+        // init ViewModel
         AndroidViewModelFactory factory = new AndroidViewModelFactory(getActivity().getApplication());
         RecipeListViewModel viewModel = new ViewModelProvider(getActivity(), factory).get(RecipeListViewModel.class);
         viewModel.getmRecipeList().observe(getViewLifecycleOwner(), recipes -> {
@@ -78,7 +74,9 @@ public class RecipeListFragment extends Fragment implements RecipeListAdapter.Re
         // show loading progress bar
         showProgressBar(true);
 
-        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        calculateNumSpan();
+
+        GridLayoutManager manager = new GridLayoutManager(getContext(), mNumSpan);
         mBiding.rvRecipeList.setLayoutManager(manager);
 
         mBiding.rvRecipeList.setHasFixedSize(true);
@@ -88,6 +86,19 @@ public class RecipeListFragment extends Fragment implements RecipeListAdapter.Re
 
         // hide loading progress bar
         showProgressBar(false);
+    }
+
+    private void calculateNumSpan() {
+        // phone landscape or tablet expand to 3 span of grid view
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        int widthPixels = displayMetrics.widthPixels;
+        int dpi = displayMetrics.densityDpi;
+        int widthDp = widthPixels * 160 / dpi;
+        if (widthDp >= 600){
+            mNumSpan = 3;
+        } else {
+            mNumSpan = 1;
+        }
     }
 
     private void showProgressBar(boolean isShowing) {
