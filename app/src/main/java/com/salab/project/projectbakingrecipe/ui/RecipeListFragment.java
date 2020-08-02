@@ -60,6 +60,8 @@ public class RecipeListFragment extends Fragment implements RecipeListAdapter.Re
             // update adapter
             Log.d(TAG, "RecipeList Updated");
             mAdapter.setmRecipeList(recipes);
+            // show error message when no result
+            showErrorMessage(recipes.isEmpty());
         });
 
     }
@@ -71,9 +73,6 @@ public class RecipeListFragment extends Fragment implements RecipeListAdapter.Re
     }
 
     public void initRecyclerView(){
-        // show loading progress bar
-        showProgressBar(true);
-
         calculateNumSpan();
 
         GridLayoutManager manager = new GridLayoutManager(getContext(), mNumSpan);
@@ -83,9 +82,6 @@ public class RecipeListFragment extends Fragment implements RecipeListAdapter.Re
 
         mAdapter = new RecipeListAdapter(null, this);
         mBiding.rvRecipeList.setAdapter(mAdapter);
-
-        // hide loading progress bar
-        showProgressBar(false);
     }
 
     private void calculateNumSpan() {
@@ -101,13 +97,13 @@ public class RecipeListFragment extends Fragment implements RecipeListAdapter.Re
         }
     }
 
-    private void showProgressBar(boolean isShowing) {
+    private void showErrorMessage(boolean isShowing) {
         if (isShowing) {
             mBiding.rvRecipeList.setVisibility(View.INVISIBLE);
-            mBiding.progressRecipeList.setVisibility(View.VISIBLE);
+            mBiding.ivErrorRecipeList.setVisibility(View.VISIBLE);
         } else {
             mBiding.rvRecipeList.setVisibility(View.VISIBLE);
-            mBiding.progressRecipeList.setVisibility(View.GONE);
+            mBiding.ivErrorRecipeList.setVisibility(View.INVISIBLE);
         }
     }
 
