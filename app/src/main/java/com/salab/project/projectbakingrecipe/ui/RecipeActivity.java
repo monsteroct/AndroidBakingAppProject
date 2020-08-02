@@ -1,5 +1,6 @@
 package com.salab.project.projectbakingrecipe.ui;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
@@ -7,10 +8,16 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.salab.project.projectbakingrecipe.R;
 import com.salab.project.projectbakingrecipe.viewmodels.RecipeDetailSharedViewModel;
 import com.salab.project.projectbakingrecipe.viewmodels.RecipeDetailSharedViewModelFactory;
+import com.salab.project.projectbakingrecipe.widget.ShoppingListUpdateService;
+
+import static com.salab.project.projectbakingrecipe.widget.ShoppingListUpdateService.KEY_WIDGET_RECIPE_ID;
+import static com.salab.project.projectbakingrecipe.widget.ShoppingListUpdateService.WIDGET_RECIPE_SHAREDPREFERENCE;
 
 public class RecipeActivity extends AppCompatActivity  {
 
@@ -84,5 +91,39 @@ public class RecipeActivity extends AppCompatActivity  {
                     .commit();
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail_menu, menu);
+
+        // change icon if the recipe is the traced one
+        int saveRecipeId = getSharedPreferences(WIDGET_RECIPE_SHAREDPREFERENCE, MODE_PRIVATE).getInt(KEY_WIDGET_RECIPE_ID, -1);
+        if (saveRecipeId != -1 && saveRecipeId == mRecipeId){
+            MenuItem item = menu.findItem(R.id.menu_item_recipe_trace_button);
+            item.setIcon(R.drawable.ic_baseline_turned_in_24);
+            item.setChecked(true);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.menu_item_recipe_trace_button){
+            if (item.isChecked()){
+                item.setIcon(R.drawable.ic_baseline_turned_in_not_24);
+                item.setChecked(false);
+                // ask service to update status in shared preference. Only one recipe allowed -> un-tracing current one means saving nothing
+                ShoppingListUpdateService.startChangeRecipeService(this, -1);
+            } else {
+                item.setIcon(R.drawable.ic_baseline_turned_in_24);
+                item.setChecked(true);
+                ShoppingListUpdateService.startChangeRecipeService(this, mRecipeId);
+            }
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

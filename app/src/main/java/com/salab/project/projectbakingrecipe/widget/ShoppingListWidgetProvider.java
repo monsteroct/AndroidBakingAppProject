@@ -45,6 +45,9 @@ public class ShoppingListWidgetProvider extends AppWidgetProvider {
                     PendingIntent.FLAG_UPDATE_CURRENT);
 
             views.setOnClickPendingIntent(R.id.tv_widget_recipe_name, recipeDetailPendingIntent);
+        } else {
+            views.setTextViewText(R.id.tv_widget_recipe_name, "");
+            views.setTextViewText(R.id.tv_widget_recipe_servings, "");
         }
 
         views.setRemoteAdapter(R.id.lv_widget_ingredient_list, new Intent(context, ShoppingListRemoteViewsServices.class));

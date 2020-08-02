@@ -82,7 +82,7 @@ class ShoppingListRemoteViewsServicesFactory implements RemoteViewsService.Remot
         view.setTextViewText(R.id.tv_widget_ingredient_name, selectedIngredient.getIngredient());
         view.setTextViewText(R.id.tv_widget_ingredient_qty, String.valueOf(selectedIngredient.getQuantity()));
         view.setTextViewText(R.id.tv_widget_ingredient_meas, selectedIngredient.getMeasure());
-        Log.d(TAG, "Widget item " + position + " is created");
+//        Log.d(TAG, "Widget item " + position + " is created");
         return view;
     }
 

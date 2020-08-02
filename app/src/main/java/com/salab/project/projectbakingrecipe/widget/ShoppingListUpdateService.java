@@ -10,6 +10,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.salab.project.projectbakingrecipe.R;
 import com.salab.project.projectbakingrecipe.models.Recipe;
 import com.salab.project.projectbakingrecipe.repository.RecipeRepository;
 
@@ -77,16 +78,22 @@ public class ShoppingListUpdateService extends IntentService {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, ShoppingListWidgetProvider.class));
 
+        // ask adapter to update ingredient list
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.lv_widget_ingredient_list);
+
         ShoppingListWidgetProvider.updateAppWidgets(this, appWidgetManager, appWidgetIds, selectedRecipe);
-        Log.d(TAG, "updating widget with recipe Id: " + selectedRecipe.getId());
+        Log.d(TAG, "updating widget with recipe Id: " + readRecipeChoice());
     }
 
     private void saveRecipeChoice(int recipeId) {
-        //save choice in SharedPreferences
+        // save choice in SharedPreferences
         SharedPreferences.Editor editor = getSharedPreferences(WIDGET_RECIPE_SHAREDPREFERENCE, MODE_PRIVATE).edit();
         editor.putInt(KEY_WIDGET_RECIPE_ID, recipeId);
         editor.apply();
-        Log.d(TAG, "save recipe id: " + recipeId + "into SharedPreferences");
+        Log.d(TAG, "save recipe id: " + recipeId + " into SharedPreferences");
+
+        // trigger widget update
+        startContentUpdateService(this);
     }
 
     private int readRecipeChoice() {
