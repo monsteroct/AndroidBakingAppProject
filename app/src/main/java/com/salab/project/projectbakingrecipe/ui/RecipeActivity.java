@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.salab.project.projectbakingrecipe.R;
 import com.salab.project.projectbakingrecipe.viewmodels.RecipeDetailSharedViewModel;
@@ -115,20 +116,24 @@ public class RecipeActivity extends AppCompatActivity  {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        // TODO : add TOAST Message
         int itemId = item.getItemId();
+        String toastMessage;
+        int stepId;
         if (itemId == R.id.menu_item_recipe_trace_button){
             if (item.isChecked()){
                 item.setIcon(R.drawable.ic_baseline_turned_in_not_24);
                 item.setChecked(false);
-                // ask service to update status in shared preference. Only one recipe allowed -> un-tracing current one means saving nothing
-                ShoppingListUpdateService.startChangeRecipeService(this, -1);
+                stepId = -1;
+                toastMessage = getString(R.string.msg_un_trace_recipe);
             } else {
                 item.setIcon(R.drawable.ic_baseline_turned_in_24);
                 item.setChecked(true);
-                ShoppingListUpdateService.startChangeRecipeService(this, mRecipeId);
+                stepId = mRecipeId;
+                toastMessage = getString(R.string.msg_trace_recipe);
             }
-
+            // ask service to update status in shared preference. Only one recipe allowed -> un-tracing current one means saving nothing
+            ShoppingListUpdateService.startChangeRecipeService(this, stepId);
+            Toast.makeText(this, toastMessage, Toast.LENGTH_LONG).show();
             return true;
         }
         return super.onOptionsItemSelected(item);
