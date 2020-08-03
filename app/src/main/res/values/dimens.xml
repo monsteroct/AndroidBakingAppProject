@@ -18,4 +18,8 @@
     <dimen name="size_exo_full_screen_button">24dp</dimen>
     <dimen name="space_to_boarder_exo_control_button">24dp</dimen>
     <dimen name="space_to_button_exo_control_button">16dp</dimen>
+
+    <!-- card view -->
+    <dimen name="card_view_radius">5dp</dimen>
+    <dimen name="card_view_elevation">5dp</dimen>
 </resources>
