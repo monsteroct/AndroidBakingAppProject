@@ -77,6 +77,7 @@ public class RecipeActivity extends AppCompatActivity  {
                 // save detail fragment (valid within activity life cycle) -> reduce the number of time instantiating new instances
                 recipeStepFragment = RecipeStepFragment.newInstance(mRecipeId, 1, mTwoPane);
             }
+
             getSupportFragmentManager().beginTransaction()
                     .replace(containerId, recipeStepFragment)
                     .addToBackStack(null) // allows navigating back to RecipeDetailFragment in one pane mode

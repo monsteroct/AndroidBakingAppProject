@@ -101,10 +101,10 @@ public class RecipeStepFragment extends Fragment {
             mBinding.fabPreviousStep.setVisibility(View.GONE);
         }
 
-        initViewModel();
-        setupPrevNextOnClickListener();
         initExoPlayer();
         initFullScreenButton();
+        setupPrevNextOnClickListener();
+        initViewModel();
     }
 
 
@@ -214,8 +214,11 @@ public class RecipeStepFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mExoPlayer.stop(true);
-        mExoPlayer.release();
-        mBinding = null;
+        if (mExoPlayer != null) {
+            // configuration change may occur before play initialization
+            mExoPlayer.stop(true);
+            mExoPlayer.release();
+            mBinding = null;
+        }
     }
 }
