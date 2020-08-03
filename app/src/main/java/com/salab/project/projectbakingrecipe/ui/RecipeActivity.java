@@ -94,7 +94,7 @@ public class RecipeActivity extends AppCompatActivity  {
 
         if (mTwoPane) {
             // two pane mode has another container.
-            recipeStepFragment = RecipeStepFragment.newInstance(mRecipeId, 1, mTwoPane);
+            recipeStepFragment = RecipeStepFragment.newInstance(mRecipeId, 1, true);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container_recipe_step_detail, recipeStepFragment)
                     .commit();
