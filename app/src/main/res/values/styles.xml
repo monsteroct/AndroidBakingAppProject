@@ -1,25 +1,38 @@
 <resources>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="ingredient_text">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textAlignment">center</item>
+    <!-- Text Style -->
+    <style name="title_text">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline4</item>
     </style>
 
     <style name="label_text">
-        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:layout_marginTop">@dimen/space_to_boarder_text</item>
         <item name="android:gravity">center_horizontal</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Subtitle1</item>
+    </style>
+
+    <style name="label_context_text">
+        <item name="android:layout_marginTop">@dimen/space_to_text_text</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body2</item>
     </style>
 
     <style name="exo_player_text">
         <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="error_cue_text">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Subtitle1</item>
     </style>
 
 </resources>

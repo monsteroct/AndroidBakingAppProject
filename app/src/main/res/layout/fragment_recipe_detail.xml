@@ -5,31 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent">
         <ImageView
             android:id="@+id/iv_detail_recipe_image"
             android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:layout_marginTop="16dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:layout_height="@dimen/height_recipe_detail_image"
+            android:layout_marginTop="@dimen/space_to_boarder_image"
+            android:paddingStart="@dimen/space_to_boarder_image"
+            android:paddingEnd="@dimen/space_to_boarder_image"
             android:contentDescription="@string/content_recipe_item_image"
             android:src="@drawable/ic_default_recipe_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
+<!-- TODO Name with servings -->
         <TextView
             android:id="@+id/tv_detail_recipe_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="@style/title_text"
             app:layout_constraintBottom_toBottomOf="@+id/iv_detail_recipe_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:background="@color/colorDarkShadow"
-            android:gravity="center_horizontal"
-            android:textSize="28sp"
             android:textColor="@android:color/white"
             tools:text="Nutella Pie"/>
 
@@ -39,8 +38,6 @@
             android:layout_height="wrap_content"
             style="@style/label_text"
             android:text="@string/label_ingredients"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_detail_recipe_image" />
@@ -49,9 +46,9 @@
             android:id="@+id/tv_detail_ingredient_list"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:layout_marginStart="@dimen/space_to_boarder_text"
+            style="@style/label_context_text"
+            android:textAlignment="viewStart"
             tools:text="2 CUP - Graham Cracker crumbs\n6 TBLSP unsalted butter, melted"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +60,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/label_steps"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_detail_ingredient_list" />

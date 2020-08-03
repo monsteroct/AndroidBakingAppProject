@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ProjectBakingRecipe</string>
+    <string name="app_name">Backing Recipe</string>
 
     <!-- error message -->
     <string name="error_loading_recipe_list">loading_recipe_list_error</string>

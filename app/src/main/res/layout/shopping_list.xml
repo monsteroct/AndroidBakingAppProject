@@ -11,11 +11,15 @@
         android:orientation="horizontal">
         <TextView
             android:id="@+id/tv_widget_recipe_name"
+            style="@style/label_text"
+            android:layout_marginStart="@dimen/space_to_boarder_text"
+            android:layout_marginTop="@dimen/space_to_boarder_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Nutella Pie" />
         <TextView
             android:id="@+id/tv_widget_recipe_servings"
+            style="@style/label_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="8 people" />
@@ -28,8 +32,10 @@
 
     <TextView
         android:id="@+id/tv_widget_empty_view"
+        style="@style/error_cue_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="@dimen/space_to_boarder_text"
         android:gravity="center"
         android:text="@string/error_empty_widget"/>
 

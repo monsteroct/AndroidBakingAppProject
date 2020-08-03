@@ -70,8 +70,8 @@
 
     <ImageButton
         android:id="@+id/exo_fullscreen_button"
-        android:layout_width="@dimen/height_width_exo_full_screen_button"
-        android:layout_height="@dimen/height_width_exo_full_screen_button"
+        android:layout_width="@dimen/size_exo_full_screen_button"
+        android:layout_height="@dimen/size_exo_full_screen_button"
         android:layout_marginEnd="@dimen/space_to_boarder_exo_control_button"
         android:background="#00000000"
         android:contentDescription="@string/content_exo_fullscreen"

@@ -6,8 +6,7 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.4"
-        android:background="@android:color/darker_gray">
+        android:layout_weight="0.4">
 
         <FrameLayout
             android:id="@+id/container_recipe_detail"
@@ -21,6 +20,5 @@
         android:id="@+id/container_recipe_step_detail"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.6"
-        android:background="@android:color/holo_blue_dark" />
+        android:layout_weight="0.6" />
 </LinearLayout>

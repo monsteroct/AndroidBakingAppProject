@@ -8,18 +8,27 @@
 
     <TextView
         android:id="@+id/tv_item_ingredient_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
         android:layout_weight="0.7"
         tools:text="Graham Cracker crumbs"
-        style="@style/ingredient_text"/>
+        style="@style/label_context_text"/>
     <TextView
         android:id="@+id/tv_item_ingredient_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
         android:layout_weight="0.10"
         tools:text="2"
-        style="@style/ingredient_text"/>
+        style="@style/label_context_text"/>
     <TextView
         android:id="@+id/tv_item_ingredient_measure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
         android:layout_weight="0.2"
         tools:text="CUP"
-        style="@style/ingredient_text"/>
+        style="@style/label_context_text"/>
 
 </LinearLayout>

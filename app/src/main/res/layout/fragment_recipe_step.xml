@@ -9,7 +9,7 @@
     <FrameLayout
         android:id="@+id/wrapper_exo_player_view"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="@dimen/height_exo_player"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
         <com.google.android.exoplayer2.ui.PlayerView
@@ -17,14 +17,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </FrameLayout>
-
+<!-- not visible on small device in landscape-->
     <TextView
         android:id="@+id/tv_step_label_detail_desc"
         style="@style/label_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
         android:text="@string/label_step_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,11 +30,11 @@
 
     <TextView
         android:id="@+id/tv_step_detail_desc"
-        style="@style/label_text"
+        style="@style/label_context_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
+        android:layout_marginStart="@dimen/space_to_boarder_text"
+        android:layout_marginEnd="@dimen/space_to_boarder_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_step_label_detail_desc"
@@ -49,9 +47,8 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         android:contentDescription="@string/content_prev_step"
         android:src="@drawable/ic_prev_step"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:background="@color/colorAccent"
+        android:layout_marginEnd="@dimen/space_to_image_image"
+        android:layout_marginBottom="@dimen/space_to_boarder_image"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/fab_next_step"/>
@@ -61,9 +58,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/content_next_step"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="16dp"
-        android:background="@color/colorAccent"
+        android:layout_marginStart="@dimen/space_to_image_image"
+        android:layout_marginBottom="@dimen/space_to_boarder_image"
         android:src="@drawable/ic_next_step"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
