@@ -35,7 +35,6 @@ public class RecipeDetailSharedViewModel extends AndroidViewModel {
 
         mSelectedRecipeId = recipeId;
         mSelectedRecipe = mRepository.getRecipeById(mSelectedRecipeId);
-        // TODO : fix the potential issue when there is no steps
         mSelectedRecipeStepIndex = 0;
         mSelectedRecipeStep = new MutableLiveData<RecipeStep>();
     }
