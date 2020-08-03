@@ -1,6 +1,8 @@
 package com.salab.project.projectbakingrecipe;
 
 
+import android.util.Log;
+
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -43,19 +45,20 @@ public class RecipeListInstrumentedTest {
 
 
     @Test
-    public void testClickLastItemInList_DisplayItsDetailPage(){
-        // test if direct to right recipe detail page
+    public void ClickLastRecipeInList_RecipeDetailContentIsVisible() throws InterruptedException {
+        // pause 1s wait background thread done. Alternative to IdlingResources
+        Thread.sleep(1000);
         onView(withId(R.id.rv_recipe_list))
-                .perform((RecyclerViewActions.scrollToPosition(mRecyclerViewItemCount)), click());
-
+                .perform((RecyclerViewActions.actionOnItemAtPosition(mRecyclerViewItemCount - 1, click())));
         onView(withId(R.id.tv_detail_recipe_name)).check(matches(isDisplayed()));
         onView(withId(R.id.tv_detail_ingredient_list)).check(matches(isDisplayed()));
     }
 
 
     @Test
-    public void testClickTargetItemInList_DisplayItsDetailPage(){
-        // test if direct to right recipe detail page
+    public void ClickTargetNameRecipeInList_DisplayRightRecipe() throws InterruptedException {
+        // pause 1s wait background thread done.
+        Thread.sleep(1000);
         onView(withId(R.id.rv_recipe_list))
                 .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(targetRecipeName)), click()));
 

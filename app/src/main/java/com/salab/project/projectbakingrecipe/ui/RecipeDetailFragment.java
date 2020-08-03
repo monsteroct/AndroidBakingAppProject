@@ -113,7 +113,7 @@ public class RecipeDetailFragment extends Fragment implements RecipeStepListAdap
         mAdapter = new RecipeStepListAdapter(getContext(), null, this);
 
         //scrolling all activity layout, so turn of individual scrolling
-        mBinding.rvRecipeStepList.setNestedScrollingEnabled(false);
+//        mBinding.rvRecipeStepList.setNestedScrollingEnabled(false);
 
         mBinding.rvRecipeStepList.setHasFixedSize(true);
         mBinding.rvRecipeStepList.setAdapter(mAdapter);
