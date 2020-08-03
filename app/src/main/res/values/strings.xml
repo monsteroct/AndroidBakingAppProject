@@ -20,9 +20,13 @@
     <string name="msg_trace_recipe">Recipe has been traced. Now you can check shopping list it on home screen widget</string>
     <string name="msg_un_trace_recipe">Recipe has been un-traced. You can trace again anytime. Status will be preserved</string>
 
-    <!-- image content -->
-    <string name="content_prev_step">prev_step</string>
+    <!-- image content description-->
+    <string name="content_prev_step">prev step</string>
     <string name="content_next_step">next step</string>
+    <string name="content_exo_play">play button</string>
+    <string name="content_exo_pause">pause button</string>
+    <string name="content_exo_fullscreen">fullscreen button</string>
+
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
 

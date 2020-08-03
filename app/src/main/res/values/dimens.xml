@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- exo player -->
+    <dimen name="height_exo_control_view">40dp</dimen>
+    <dimen name="height_exo_progress_bar">6dp</dimen>
+    <dimen name="height_width_exo_full_screen_button">24dp</dimen>
+    <dimen name="margin_to_boarder_exo_control_button">24dp</dimen>
+    <dimen name="margin_to_button_exo_control_button">16dp</dimen>
+</resources>
