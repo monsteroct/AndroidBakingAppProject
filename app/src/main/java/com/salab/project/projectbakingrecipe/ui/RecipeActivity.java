@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.salab.project.projectbakingrecipe.R;
 import com.salab.project.projectbakingrecipe.viewmodels.RecipeDetailSharedViewModel;
 import com.salab.project.projectbakingrecipe.viewmodels.RecipeDetailSharedViewModelFactory;
@@ -28,9 +29,6 @@ public class RecipeActivity extends AppCompatActivity  {
     private int mRecipeId = -1;
     private boolean mTwoPane;
 
-    private FragmentManager mFragmentManager = getSupportFragmentManager();
-    // single Fragment instance for each class, relying on ViewModel to update data inside
-    private RecipeDetailFragment recipeDetailFragment;
     private RecipeStepFragment recipeStepFragment;
 
     @Override
@@ -75,29 +73,32 @@ public class RecipeActivity extends AppCompatActivity  {
                 // two pane: two individual containers
                 containerId = R.id.container_recipe_detail;
             }
-            mFragmentManager.beginTransaction()
+            if (recipeStepFragment == null){
+                // save detail fragment (valid within activity life cycle) -> reduce the number of time instantiating new instances
+                recipeStepFragment = RecipeStepFragment.newInstance(mRecipeId, 1, mTwoPane);
+            }
+            getSupportFragmentManager().beginTransaction()
                     .replace(containerId, recipeStepFragment)
+                    .addToBackStack(null) // allows navigating back to RecipeDetailFragment in one pane mode
                     .commit();
         });
     }
 
     private void initFragments() {
-        // Create corresponding fragments to this recipe
-        recipeDetailFragment = RecipeDetailFragment.newInstance(mRecipeId);
-        recipeStepFragment = RecipeStepFragment.newInstance(mRecipeId, 1);
 
+        RecipeDetailFragment recipeDetailFragment = RecipeDetailFragment.newInstance(mRecipeId);
         // one pane mode all share the same container
-        mFragmentManager.beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .add(R.id.container_recipe_detail, recipeDetailFragment)
                 .commit();
 
         if (mTwoPane) {
             // two pane mode has another container.
-            mFragmentManager.beginTransaction()
+            recipeStepFragment = RecipeStepFragment.newInstance(mRecipeId, 1, mTwoPane);
+            getSupportFragmentManager().beginTransaction()
                     .add(R.id.container_recipe_step_detail, recipeStepFragment)
                     .commit();
         }
-        Log.d(TAG,"fragments created");
     }
 
     @Override

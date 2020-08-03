@@ -35,13 +35,16 @@ import com.salab.project.projectbakingrecipe.viewmodels.RecipeDetailSharedViewMo
  */
 public class RecipeStepFragment extends Fragment {
 
-    private static final String TAG = RecipeListFragment.class.getSimpleName();
+    private static final String TAG = RecipeStepFragment.class.getSimpleName();
 
     public static final String ARG_RECIPE_ID = "recipe_argument";
     public static final String ARG_STEP_INDEX_ID = "step_argument";
+    public static final String ARG_TWO_PANE = "two_pane";
 
     private int mRecipeId;
     private int mStepId;
+    private boolean mTwoPane;
+
     private SimpleExoPlayer mExoPlayer;
     private FragmentRecipeStepBinding mBinding;
     private RecipeDetailSharedViewModel mViewModel;
@@ -56,11 +59,12 @@ public class RecipeStepFragment extends Fragment {
     }
 
 
-    public static RecipeStepFragment newInstance(int recipeId, int stepIndexId) {
+    public static RecipeStepFragment newInstance(int recipeId, int stepIndexId, boolean twoPane) {
         RecipeStepFragment fragment = new RecipeStepFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_RECIPE_ID, recipeId);
         args.putInt(ARG_STEP_INDEX_ID, stepIndexId);
+        args.putBoolean(ARG_TWO_PANE, twoPane);
         fragment.setArguments(args);
         return fragment;
     }
@@ -84,13 +88,20 @@ public class RecipeStepFragment extends Fragment {
         if (getArguments() != null) {
             mRecipeId = getArguments().getInt(ARG_RECIPE_ID);
             mStepId = getArguments().getInt(ARG_STEP_INDEX_ID);
-            Log.d(TAG, "Detail Recipe Step started, with recipe/step Id = " + mRecipeId + ", " + mStepId);
-            initViewModel();
+            mTwoPane = getArguments().getBoolean(ARG_TWO_PANE);
+            Log.d(TAG, "Detail Recipe Step started, with recipe/step Id/two pane  = " + mRecipeId + ", " + mStepId + ", " + mTwoPane);
+
         }
+        if (mTwoPane){
+            // in two pane mode, floating buttons to switch step are not necessary
+            mBinding.fabNextStep.setVisibility(View.GONE);
+            mBinding.fabPreviousStep.setVisibility(View.GONE);
+        }
+
+        initViewModel();
         setupPrevNextOnClickListener();
         initExoPlayer();
         initFullScreenButton();
-
     }
 
 
