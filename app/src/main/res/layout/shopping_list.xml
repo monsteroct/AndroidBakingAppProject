@@ -10,19 +10,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:id="@+id/tv_widget_recipe_name"
+            android:id="@+id/tv_widget_recipe_title"
             style="@style/label_text"
             android:layout_marginStart="@dimen/space_to_boarder_text"
             android:layout_marginTop="@dimen/space_to_boarder_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Nutella Pie" />
-        <TextView
-            android:id="@+id/tv_widget_recipe_servings"
-            style="@style/label_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="8 people" />
+            tools:text="Nutella Pie (for 8)" />
     </LinearLayout>
 
     <ListView

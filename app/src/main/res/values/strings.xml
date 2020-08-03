@@ -3,7 +3,7 @@
 
     <!-- error message -->
     <string name="error_loading_recipe_list">loading_recipe_list_error</string>
-    <string name="error_empty_widget">Track one favorite recipe and track the ingredient shopping list</string>
+    <string name="error_empty_widget">Try to trace your one recipe. This will be your shopping check list.</string>
 
     <!-- image content description -->
     <string name="content_recipe_item_image">Recipe item image</string>
@@ -17,6 +17,7 @@
     <!-- in program message format -->
     <string name="msg_ingredient_desc">%1$.1f %2$s - %3$s</string>
     <string name="msg_step_desc">Step %1$d: %2$s</string>
+    <string name="msg_widget_title">%1$s (for %2$d)</string>
     <string name="msg_trace_recipe">Recipe has been traced. Now you can check shopping list it on home screen widget</string>
     <string name="msg_un_trace_recipe">Recipe has been un-traced. You can trace again anytime. Status will be preserved</string>
     <string name="msg_no_connection">Connect to the Internet to enjoy the video</string>

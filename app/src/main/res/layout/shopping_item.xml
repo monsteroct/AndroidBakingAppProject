@@ -19,7 +19,7 @@
         style="@style/label_context_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxWidth="200dp"
+        android:maxWidth="180dp"
         android:ellipsize="end"
         android:textAlignment="textStart"
         android:layout_alignBottom="@+id/iv_widget_ingredient_checkbox"

@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import com.salab.project.projectbakingrecipe.R;
@@ -38,16 +39,16 @@ public class ShoppingListWidgetProvider extends AppWidgetProvider {
         views.setEmptyView(R.id.lv_widget_ingredient_list, R.id.tv_widget_empty_view);
 
         if (!hasSelectedRecipe) {
-            views.setTextViewText(R.id.tv_widget_recipe_name, selectedRecipe.getName());
-            views.setTextViewText(R.id.tv_widget_recipe_servings, String.valueOf(selectedRecipe.getServings()));
+            String widget_title = context.getString(R.string.msg_widget_title, selectedRecipe.getName(), selectedRecipe.getServings());
+            views.setViewVisibility(R.id.tv_widget_recipe_title, View.VISIBLE);
+            views.setTextViewText(R.id.tv_widget_recipe_title, widget_title);
 
             // On recipe title click, redirect to the recipe page
-            views.setOnClickPendingIntent(R.id.tv_widget_recipe_name, getRecipeDetailPendingIntent(context, selectedRecipe));
+            views.setOnClickPendingIntent(R.id.tv_widget_recipe_title, getRecipeDetailPendingIntent(context, selectedRecipe));
 
         } else {
             // override title with empty string when there's no favorite recipe
-            views.setTextViewText(R.id.tv_widget_recipe_name, "");
-            views.setTextViewText(R.id.tv_widget_recipe_servings, "");
+            views.setViewVisibility(R.id.tv_widget_recipe_title, View.GONE);
             // when there's no favorite recipe. show alternative view which redirecting to recipe list paget
             views.setOnClickPendingIntent(R.id.tv_widget_empty_view, getRecipeListPendingIntent(context));
         }

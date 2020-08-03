@@ -20,7 +20,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-<!-- TODO Name with servings -->
+
         <TextView
             android:id="@+id/tv_detail_recipe_name"
             android:layout_width="0dp"
