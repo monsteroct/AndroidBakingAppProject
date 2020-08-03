@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </FrameLayout>
-
+<!-- not visible on small device in landscape-->
     <TextView
         android:id="@+id/tv_step_label_detail_desc"
         style="@style/label_text"

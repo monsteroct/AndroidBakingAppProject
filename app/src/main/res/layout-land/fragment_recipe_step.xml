@@ -8,35 +8,37 @@
     <!-- wrapping PlayerView with a view group allows it to be add/remove dynamically-->
     <FrameLayout
         android:id="@+id/wrapper_exo_player_view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_exo_player"
+        android:layout_width="500dp"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
         <com.google.android.exoplayer2.ui.PlayerView
             android:id="@+id/pv_step_video"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </FrameLayout>
+<!-- not visible on small device in landscape-->
 
     <TextView
         android:id="@+id/tv_step_label_detail_desc"
         style="@style/label_text"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/label_step_description"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/wrapper_exo_player_view" />
+        app:layout_constraintEnd_toEndOf="@+id/tv_step_detail_desc"
+        app:layout_constraintStart_toStartOf="@+id/tv_step_detail_desc"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_step_detail_desc"
         style="@style/label_context_text"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_to_boarder_text"
         android:layout_marginEnd="@dimen/space_to_boarder_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/wrapper_exo_player_view"
         app:layout_constraintTop_toBottomOf="@+id/tv_step_label_detail_desc"
         tools:text="1. Preheat the oven to 350\u00b0F. Butter a 9\' deep dish pie pan." />
 
@@ -44,14 +46,14 @@
         android:id="@+id/fab_previous_step"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        android:contentDescription="@string/content_prev_step"
-        android:src="@drawable/ic_prev_step"
         android:layout_marginEnd="@dimen/space_to_image_image"
         android:layout_marginBottom="@dimen/space_to_boarder_image"
+        android:contentDescription="@string/content_prev_step"
+        android:src="@drawable/ic_prev_step"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/fab_next_step"/>
+        app:layout_constraintEnd_toStartOf="@+id/fab_next_step"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/wrapper_exo_player_view" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_next_step"
