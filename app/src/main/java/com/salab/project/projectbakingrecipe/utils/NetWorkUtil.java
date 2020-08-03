@@ -1,5 +1,8 @@
 package com.salab.project.projectbakingrecipe.utils;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.Network;
 import android.util.Log;
 
 import com.salab.project.projectbakingrecipe.models.Recipe;
@@ -42,6 +45,15 @@ public class NetWorkUtil {
         //topher/2017/May/59121517_baking/baking.json
         @GET("topher/2017/May/59121517_baking/baking.json")
         Call<List<Recipe>> getRecipes();
+    }
+
+    public static boolean isOnline(Context context){
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        Network activeNetwork = connectivityManager.getActiveNetwork();
+        return !(activeNetwork == null);
+
     }
 
 }

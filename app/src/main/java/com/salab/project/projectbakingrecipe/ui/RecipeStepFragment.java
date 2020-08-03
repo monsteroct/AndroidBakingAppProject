@@ -1,7 +1,6 @@
 package com.salab.project.projectbakingrecipe.ui;
 
 import android.app.Dialog;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -15,8 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
@@ -25,6 +27,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.salab.project.projectbakingrecipe.R;
 import com.salab.project.projectbakingrecipe.databinding.FragmentRecipeStepBinding;
+import com.salab.project.projectbakingrecipe.utils.NetWorkUtil;
 import com.salab.project.projectbakingrecipe.viewmodels.RecipeDetailSharedViewModel;
 import com.salab.project.projectbakingrecipe.viewmodels.RecipeDetailSharedViewModelFactory;
 
@@ -182,6 +185,15 @@ public class RecipeStepFragment extends Fragment {
         mExoPlayer = new SimpleExoPlayer.Builder(getContext()).build();
         mExoPlayer.setPlayWhenReady(true);
         mExoPlayer.setRepeatMode(ExoPlayer.REPEAT_MODE_ONE);
+        mExoPlayer.addListener(new Player.EventListener() {
+            @Override
+            public void onPlayerError(ExoPlaybackException error) {
+                // check player error
+                Log.d(TAG, "player error");
+                Toast.makeText(getContext(), getString(R.string.msg_video_loading_error), Toast.LENGTH_LONG).show();
+            }
+        });
+
         mBinding.pvStepVideo.setPlayer(mExoPlayer);
 
         mMediaSourceFactory = new DefaultDataSourceFactory(getContext(),
@@ -189,10 +201,14 @@ public class RecipeStepFragment extends Fragment {
     }
 
     private void loadVideoToPlayer(String videoUrl) {
-
-        Uri uri = Uri.parse(videoUrl);
-        MediaSource video = new ProgressiveMediaSource.Factory(mMediaSourceFactory).createMediaSource(uri);
-        mExoPlayer.prepare(video);
+        if (NetWorkUtil.isOnline(getContext())){
+            Uri uri = Uri.parse(videoUrl);
+            MediaSource video = new ProgressiveMediaSource.Factory(mMediaSourceFactory).createMediaSource(uri);
+            mExoPlayer.prepare(video);
+        } else {
+            Log.d(TAG, "device offline");
+            Toast.makeText(getContext(), getString(R.string.msg_no_connection), Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

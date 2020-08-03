@@ -19,6 +19,8 @@
     <string name="msg_step_desc">Step %1$d: %2$s</string>
     <string name="msg_trace_recipe">Recipe has been traced. Now you can check shopping list it on home screen widget</string>
     <string name="msg_un_trace_recipe">Recipe has been un-traced. You can trace again anytime. Status will be preserved</string>
+    <string name="msg_no_connection">Connect to the Internet to enjoy the video</string>
+    <string name="msg_video_loading_error">Video is not available</string>
 
     <!-- image content description-->
     <string name="content_prev_step">prev step</string>
